@@ -37,6 +37,7 @@ body {
     min-height: 100vh;
     text-rendering: optimizeSpeed;
     line-height: 1.5;
+    font-family: 'Roboto', sans-serif;
 }
 
 /* A elements that don't have a class get default styles */
@@ -73,4 +74,23 @@ select {
         transition-duration: 0.01ms !important;
         scroll-behavior: auto !important;
     }
+}
+
+:root {
+  --primary-white: #ffffff;
+  --secondary-white: #e6e6e6;
+}
+
+#root {
+  display: flex;
+  flex-direction: row-reverse;
+}
+
+.main__background-image {
+  position: absolute;
+  top: 0;
+  z-index: -1;
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
 }

@@ -6,6 +6,7 @@ function App() {
 
   return (
     <>
+      <img className="main__background-image" src="./day-cloudy.jpg" alt="day-cloudy" />
       <WeatherInfo />
       <MainWeatherInfo />
     </>

@@ -1,8 +1,52 @@
-.main__background-image {
-    position: absolute;
-    top: 0;
-    z-index: -1;
-    height: 100vh;
+.main {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 5rem 0rem 10rem 8rem;
     width: 100%;
-    object-fit: cover;
+}
+
+.main__logo {
+    color: var(--secondary-white);
+}
+
+.main__weather-details {
+    display: flex;
+    align-items: flex-end;
+}
+
+.main__degrees {
+    font-size: 8rem;
+    color: var(--primary-white);
+    line-height: 0.8;
+    letter-spacing: -0.75rem;
+}
+
+.main__city-info {
+    margin-left: 1rem;
+}
+
+.main__city {
+    color: var(--primary-white);
+    font-size: 3.5rem;
+    line-height: 1;
+}
+
+.main__time {
+    color: var(--secondary-white);
+    font-size: 1.175rem;
+}
+
+.main__weather-info {
+    margin-left: 2rem;
+}
+
+.main__weather {
+    color: var(--secondary-white);
+    font-size: 1.175rem;
+}
+
+.main__weather-image {
+    width: 3rem;
+    height: 3rem;
 }
