@@ -1,20 +1,38 @@
+import { useEffect } from 'react';
 import styles from './MainWeatherInfo.module.css';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchCurrentWeatherData, selectCurrentWeatherDetails } from '../../weatherSlice';
+import { AppDispatch, RootState } from '../../store';
 
 export default function MainWeatherInfo() {
+    const cityName = 'Plovdiv';
+    const dispatch: AppDispatch = useDispatch();
+    const currentWeatherDetails = useSelector((state: RootState) => selectCurrentWeatherDetails(state));
+    const loading = useSelector((state: RootState) => state.currentWeather.loading);
+    const error = useSelector((state: RootState) => state.currentWeather.error);
+
+    useEffect(() => {
+        dispatch(fetchCurrentWeatherData(cityName));
+    }, [dispatch, cityName]);
+
     return (
-        <main className={styles["main"]}>
-            <h3 className={styles["main__logo"]}>Weather App</h3>
-            <div className={styles["main__weather-details"]}>
-                <h2 className={styles["main__degrees"]}>16&deg;</h2>
-                <div className={styles["main__city-info"]}>
-                    <h1 className={styles["main__city"]}>London</h1>
-                    <p className={styles["main__time"]}>06:09 - Monday, 9 Sep '23</p>
-                </div>
-                <div className={styles["main__weather-info"]}>
-                    <img className={styles["main__weather-image"]} src="https://www.clipartmax.com/png/small/102-1028872_weather-partly-cloudy-rain-icon-weather-icon.png" alt="Weather Partly Cloudy Rain Icon - Weather Icon @clipartmax.com" />
-                    <span className={styles["main__weather"]}>Cloudy</span>
-                </div>
-            </div>
-        </main>
+        <>
+            {loading ? <img src="./loading.svg" alt="loading" /> : (
+                <main className={styles["main"]}>
+                    <h3 className={styles["main__logo"]}>Weather App</h3>
+                    <div className={styles["main__weather-details"]}>
+                        <h2 className={styles["main__degrees"]}>{currentWeatherDetails.degrees}&deg;</h2>
+                        <div className={styles["main__city-info"]}>
+                            <h1 className={styles["main__city"]}>{cityName}</h1>
+                            <p className={styles["main__time"]}>{currentWeatherDetails.time}</p>
+                        </div>
+                        <div className={styles["main__weather-info"]}>
+                            <img className={styles["main__weather-image"]} src={currentWeatherDetails.icon} alt="weather" />
+                            <span className={styles["main__weather"]}>{currentWeatherDetails.weather}</span>
+                        </div>
+                    </div>
+                </main>
+            )}
+        </>
     );
 }

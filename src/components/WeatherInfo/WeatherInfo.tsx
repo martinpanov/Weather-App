@@ -33,24 +33,24 @@ export default function WeatherInfo() {
             </div>
             <div className={styles["aside__weather-details"]}>
                 <h2 className={styles["aside__weather-info-title"]}>Hourly Forecast</h2>
-                <ul className={styles["aside__weather-info-list"]} role='list'>
+                <ul className={styles["aside__weather-time-list"]} role='list'>
                     {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12].map((listItem, index) => (
                         <li key={index}>
-                            <span className={styles["aside__weather-info-type"]}>{listItem}:00 PM</span>
+                            <span className={styles["aside__weather-time"]}>{listItem}:00 PM</span>
                             <img src="" alt="" />
-                            <span className={styles["aside__weather-info-value"]}>18&deg;</span>
+                            <span className={styles["aside__weather-degrees"]}>18&deg;</span>
                         </li>
                     ))}
                 </ul>
             </div>
             <div className={styles["aside__weather-details"]}>
                 <h2 className={styles["aside__weather-info-title"]}>Daily Forecast</h2>
-                <ul className={styles["aside__weather-info-list"]} role='list'>
+                <ul className={styles["aside__weather-time-list"]} role='list'>
                     {['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'].map((day, index) => (
                         <li key={index}>
-                            <span className={styles["aside__weather-info-type"]}>{day}</span>
+                            <span className={styles["aside__weather-time"]}>{day}</span>
                             <img src="" alt="" />
-                            <span className={styles["aside__weather-info-value"]}>18&deg;</span>
+                            <span className={styles["aside__weather-degrees"]}>18&deg;</span>
                         </li>
                     ))}
                 </ul>
