@@ -1,19 +1,12 @@
-import { useEffect } from 'react';
 import styles from './MainWeatherInfo.module.css';
-import { useDispatch, useSelector } from 'react-redux';
-import { fetchCurrentWeatherData } from '../../currentWeatherSlice';
-import { AppDispatch, RootState } from '../../store';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../store';
 
 export default function MainWeatherInfo() {
     const cityName = 'Plovdiv';
-    const dispatch: AppDispatch = useDispatch();
     const currentWeatherDetails = useSelector((state: RootState) => state.currentWeather);
     const loading = useSelector((state: RootState) => state.currentWeather.loading);
     const error = useSelector((state: RootState) => state.currentWeather.error);
-
-    useEffect(() => {
-        dispatch(fetchCurrentWeatherData(cityName));
-    }, [dispatch, cityName]);
 
     return (
         <>
