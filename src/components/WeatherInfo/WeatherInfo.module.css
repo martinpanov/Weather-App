@@ -60,12 +60,20 @@
     justify-content: space-between;
 }
 
+.aside__weather-time-list-item {
+    text-align: center;
+}
+
 .aside__weather-info-type, .aside__weather-time {
     color: var(--secondary-white);
 }
 
 .aside__weather-info-value, .aside__weather-degrees {
     color: var(--primary-white);
+}
+
+.aside__weather-degrees {
+    font-size: 1.5rem;
 }
 
 .aside__weather-time-list {

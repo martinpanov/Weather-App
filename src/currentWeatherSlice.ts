@@ -1,24 +1,29 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { RootState } from './store';
 
-interface currentWeather {
-    degrees: string,
-    time: string,
-    weather: string,
-    icon: string,
-    lon: string,
-    lat: string;
-    loading: boolean,
+interface CurrentWeather {
+    degrees: string;
+    temp_max: string;
+    temp_low: string;
+    humidity: string;
+    wind: string;
+    time: string;
+    date: string;
+    weather: string;
+    icon: string;
+    loading: boolean;
     error: string;
 }
 
-const initialCurrentWeatherState: currentWeather = {
+const initialCurrentWeatherState: CurrentWeather = {
     degrees: '',
-    time: '',
+    temp_max: '',
+    temp_low: '',
+    humidity: '',
+    wind: '',
     weather: '',
+    time: '',
+    date: '',
     icon: '',
-    lon: '',
-    lat: '',
     loading: true,
     error: ''
 };
@@ -35,11 +40,12 @@ export const fetchCurrentWeatherData = createAsyncThunk('currentWeather/fetchDat
 
         const formattedData = {
             degrees: currentWeatherData.main.temp.toFixed(0),
-            time: `${new Date(currentWeatherData.dt * 1000).toLocaleTimeString('en-GB')} ${new Date(currentWeatherData.dt * 1000).toLocaleDateString('en-GB')}`,
+            time: new Date(currentWeatherData.dt * 1000).toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' }),
+            date: new Date(currentWeatherData.dt * 1000).toLocaleDateString('en-GB'),
+            humidity: currentWeatherData.main.humidity,
+            wind: currentWeatherData.wind.speed,
             weather: currentWeatherData.weather[0].main,
             icon: `https://openweathermap.org/img/wn/${currentWeatherData.weather[0].icon}@2x.png`,
-            lon: currentWeatherData.coord.lon,
-            lat: currentWeatherData.coord.lat,
         };
 
         return formattedData;
@@ -62,10 +68,11 @@ const currentWeatherSlice = createSlice({
                 state.loading = false;
                 state.degrees = action.payload.degrees;
                 state.time = action.payload.time;
+                state.date = action.payload.date;
+                state.humidity = action.payload.humidity;
+                state.wind = action.payload.wind;
                 state.weather = action.payload.weather;
                 state.icon = action.payload.icon;
-                state.lon = action.payload.lon;
-                state.lat = action.payload.lat;
             })
             .addCase(fetchCurrentWeatherData.rejected, (state, action) => {
                 state.loading = false;
@@ -75,5 +82,4 @@ const currentWeatherSlice = createSlice({
 });
 
 
-export const selectCurrentWeatherDetails = (state: RootState) => state.currentWeather;
 export default currentWeatherSlice.reducer;

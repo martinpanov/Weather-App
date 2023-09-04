@@ -1,15 +1,17 @@
 import { useEffect } from 'react';
 import styles from './MainWeatherInfo.module.css';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchCurrentWeatherData, selectCurrentWeatherDetails } from '../../weatherSlice';
+import { fetchCurrentWeatherData } from '../../currentWeatherSlice';
 import { AppDispatch, RootState } from '../../store';
 
 export default function MainWeatherInfo() {
     const cityName = 'Plovdiv';
     const dispatch: AppDispatch = useDispatch();
-    const currentWeatherDetails = useSelector((state: RootState) => selectCurrentWeatherDetails(state));
+    const currentWeatherDetails = useSelector((state: RootState) => state.currentWeather);
     const loading = useSelector((state: RootState) => state.currentWeather.loading);
     const error = useSelector((state: RootState) => state.currentWeather.error);
+    console.log(currentWeatherDetails);
+
 
     useEffect(() => {
         dispatch(fetchCurrentWeatherData(cityName));
@@ -24,7 +26,7 @@ export default function MainWeatherInfo() {
                         <h2 className={styles["main__degrees"]}>{currentWeatherDetails.degrees}&deg;</h2>
                         <div className={styles["main__city-info"]}>
                             <h1 className={styles["main__city"]}>{cityName}</h1>
-                            <p className={styles["main__time"]}>{currentWeatherDetails.time}</p>
+                            <p className={styles["main__time"]}>{currentWeatherDetails.time} {currentWeatherDetails.date}</p>
                         </div>
                         <div className={styles["main__weather-info"]}>
                             <img className={styles["main__weather-image"]} src={currentWeatherDetails.icon} alt="weather" />
