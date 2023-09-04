@@ -10,8 +10,6 @@ export default function MainWeatherInfo() {
     const currentWeatherDetails = useSelector((state: RootState) => state.currentWeather);
     const loading = useSelector((state: RootState) => state.currentWeather.loading);
     const error = useSelector((state: RootState) => state.currentWeather.error);
-    console.log(currentWeatherDetails);
-
 
     useEffect(() => {
         dispatch(fetchCurrentWeatherData(cityName));

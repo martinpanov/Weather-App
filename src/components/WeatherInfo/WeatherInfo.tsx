@@ -21,6 +21,22 @@ export default function WeatherInfo() {
     const todaysWeather = fiveDaysWeather.filter((weather: FiveDaysWeather) => weather.date === new Date().toLocaleDateString('en-GB'));
     const todaysDegreesHigh = Math.max(...todaysWeather.map((weather: FiveDaysWeather) => Number(weather.degrees)));
     const todaysDegreesLow = Math.min(...todaysWeather.map((weather: FiveDaysWeather) => Number(weather.degrees)));
+    const dailyForecast: any = {};
+
+    // Doing all this because the API returns the weather data in interval of 3 hours and it doesn't return daily weather data
+    // so I have to filter the weather data and receive only the unique dates, this way, I'm able to create the daily forecast.
+    fiveDaysWeather.forEach((weather: FiveDaysWeather) => {
+        if (!dailyForecast.hasOwnProperty(weather.date)) {
+            dailyForecast[weather.date] = { icon: weather.icon, degrees: [] };
+        }
+        dailyForecast[weather.date].degrees.push(weather.degrees);
+    });
+
+    const averageDegrees = Array.from(Object.entries(dailyForecast)).map(([date, degreesArrayAndIcon]: [string, any]) => ({
+        date,
+        degrees: (degreesArrayAndIcon.degrees.reduce((acc: number, degrees: string) => acc + Number(degrees), 0) / degreesArrayAndIcon.degrees.length).toFixed(0),
+        icon: degreesArrayAndIcon.icon
+    }));
 
     useEffect(() => {
         dispatch(fetchFiveDaysWeatherData(cityName));
@@ -68,11 +84,11 @@ export default function WeatherInfo() {
             <div className={styles["aside__weather-details"]}>
                 <h2 className={styles["aside__weather-info-title"]}>Daily Forecast</h2>
                 <ul className={styles["aside__weather-time-list"]} role='list'>
-                    {['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'].map((day, index) => (
+                    {averageDegrees.map((weather, index) => (
                         <li className={styles["aside__weather-time-list-item"]} key={index}>
-                            <span className={styles["aside__weather-time"]}>{day}</span>
-                            <img src="" alt="" />
-                            <span className={styles["aside__weather-degrees"]}>18&deg;</span>
+                            <span className={styles["aside__weather-time"]}>{weather.date}</span>
+                            <img src={weather.icon} alt="weather" />
+                            <span className={styles["aside__weather-degrees"]}>{weather.degrees}&deg;</span>
                         </li>
                     ))}
                 </ul>
