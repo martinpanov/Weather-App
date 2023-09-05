@@ -1,4 +1,5 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import formatTime from '../utils/formatDate';
 
 interface FiveDaysWeather {
     fiveDaysWeather: [];
@@ -25,8 +26,9 @@ export const fetchFiveDaysWeatherData = createAsyncThunk('fiveDaysWeather/fetchD
         const formattedData = fiveDaysWeatherData.list.map((day: any) => {
             return {
                 degrees: day.main.temp.toFixed(0),
-                time: new Date(day.dt * 1000).toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' }),
+                time: formatTime(fiveDaysWeatherData.city.timezone, day.dt * 1000),
                 date: new Date(day.dt * 1000).toLocaleDateString('en-GB'),
+                precipitation: day.pop,
                 weather: day.weather[0].main,
                 icon: `https://openweathermap.org/img/wn/${day.weather[0].icon}@2x.png`,
             };

@@ -1,6 +1,8 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import formatTime from '../utils/formatDate';
 
 interface CurrentWeather {
+    cityName: string;
     degrees: string;
     temp_max: string;
     temp_low: string;
@@ -15,6 +17,7 @@ interface CurrentWeather {
 }
 
 const initialCurrentWeatherState: CurrentWeather = {
+    cityName: '',
     degrees: '',
     temp_max: '',
     temp_low: '',
@@ -28,6 +31,7 @@ const initialCurrentWeatherState: CurrentWeather = {
     error: ''
 };
 
+
 export const fetchCurrentWeatherData = createAsyncThunk('currentWeather/fetchData', async (cityName: string) => {
     try {
         const response = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${cityName}&appid=${import.meta.env.VITE_OPEN_WEATHER_API_KEY}&units=metric`);
@@ -39,8 +43,9 @@ export const fetchCurrentWeatherData = createAsyncThunk('currentWeather/fetchDat
         const currentWeatherData = await response.json();
 
         const formattedData = {
+            cityName: currentWeatherData.name,
             degrees: currentWeatherData.main.temp.toFixed(0),
-            time: new Date(currentWeatherData.dt * 1000).toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' }),
+            time: formatTime(currentWeatherData.timezone, 0),
             date: new Date(currentWeatherData.dt * 1000).toLocaleDateString('en-GB'),
             humidity: currentWeatherData.main.humidity,
             wind: currentWeatherData.wind.speed,
@@ -66,6 +71,7 @@ const currentWeatherSlice = createSlice({
             })
             .addCase(fetchCurrentWeatherData.fulfilled, (state, action) => {
                 state.loading = false;
+                state.cityName = action.payload.cityName;
                 state.degrees = action.payload.degrees;
                 state.time = action.payload.time;
                 state.date = action.payload.date;

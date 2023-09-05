@@ -16,7 +16,7 @@ export default function MainWeatherInfo() {
                     <div className={styles["main__weather-details"]}>
                         <h2 className={styles["main__degrees"]}>{currentWeatherDetails.degrees}&deg;</h2>
                         <div className={styles["main__city-info"]}>
-                            <h1 className={styles["main__city"]}>{cityName}</h1>
+                            <h1 className={styles["main__city"]}>{currentWeatherDetails.cityName}</h1>
                             <p className={styles["main__time"]}>{currentWeatherDetails.time} {currentWeatherDetails.date}</p>
                         </div>
                         <div className={styles["main__weather-info"]}>

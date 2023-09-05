@@ -4,7 +4,7 @@ import './App.css';
 import MainWeatherInfo from './components/MainWeatherInfo/MainWeatherInfo';
 import WeatherInfo from './components/WeatherInfo/WeatherInfo';
 import { AppDispatch, RootState } from './store';
-import { fetchCurrentWeatherData } from './currentWeatherSlice';
+import { fetchCurrentWeatherData } from './features/currentWeatherSlice';
 
 function App() {
     const cityName = 'Plovdiv';
@@ -13,9 +13,9 @@ function App() {
     const currentWeatherDetails = useSelector((state: RootState) => state.currentWeather);
     const [backgroundImage, setBackGroundImage] = useState('');
 
-    useEffect(() => {
-        dispatch(fetchCurrentWeatherData(cityName));
-    }, [dispatch, cityName]);
+    // useEffect(() => {
+    //     dispatch(fetchCurrentWeatherData(cityName));
+    // }, [dispatch, cityName]);
 
     useEffect(() => {
         if (currentWeatherDetails.weather && currentWeatherDetails.time) {
@@ -57,6 +57,9 @@ function App() {
                     setBackGroundImage('./mist.jpg');
                     break;
                 case 'Fog':
+                    setBackGroundImage('./mist.jpg');
+                    break;
+                case 'Haze':
                     setBackGroundImage('./mist.jpg');
                     break;
                 case 'Thunderstorm':
