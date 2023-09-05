@@ -3,7 +3,6 @@ import { useSelector } from 'react-redux';
 import { RootState } from '../../store';
 
 export default function MainWeatherInfo() {
-    const cityName = 'Plovdiv';
     const currentWeatherDetails = useSelector((state: RootState) => state.currentWeather);
     const loading = useSelector((state: RootState) => state.currentWeather.loading);
     const error = useSelector((state: RootState) => state.currentWeather.error);

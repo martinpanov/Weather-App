@@ -3,19 +3,11 @@ import { useDispatch, useSelector } from 'react-redux';
 import './App.css';
 import MainWeatherInfo from './components/MainWeatherInfo/MainWeatherInfo';
 import WeatherInfo from './components/WeatherInfo/WeatherInfo';
-import { AppDispatch, RootState } from './store';
-import { fetchCurrentWeatherData } from './features/currentWeatherSlice';
+import { RootState } from './store';
 
 function App() {
-    const cityName = 'Plovdiv';
-
-    const dispatch: AppDispatch = useDispatch();
     const currentWeatherDetails = useSelector((state: RootState) => state.currentWeather);
     const [backgroundImage, setBackGroundImage] = useState('');
-
-    // useEffect(() => {
-    //     dispatch(fetchCurrentWeatherData(cityName));
-    // }, [dispatch, cityName]);
 
     useEffect(() => {
         if (currentWeatherDetails.weather && currentWeatherDetails.time) {
