@@ -2,12 +2,21 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import formatTime from '../utils/formatDate';
 
 interface FiveDaysWeather {
-    fiveDaysWeather: [];
+    degrees: number;
+    time: string;
+    date: string;
+    precipitation: number;
+    weather: string;
+    icon: string;
+}
+
+interface FiveDaysWeatherState {
+    fiveDaysWeather: FiveDaysWeather[];
     loading: boolean;
     error: string;
 }
 
-const initialFiveDaysWeatherState: FiveDaysWeather = {
+const initialFiveDaysWeatherState: FiveDaysWeatherState = {
     fiveDaysWeather: [],
     loading: true,
     error: ''

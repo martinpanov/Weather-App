@@ -10,6 +10,58 @@
     color: var(--secondary-white);
 }
 
+.main__skeleton-wrapper {
+    display: flex;
+    opacity: 0.4;
+    gap: 1rem;
+}
+
+.main__skeleton {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    gap: 0.5rem;
+}
+
+.main__skeleton-degrees {
+    height: 6.5rem;
+    width: 10rem;
+}
+
+.main__skeleton-city {
+    height: 3.5rem;
+    width: 11.5rem;
+}
+
+.main__skeleton-time {
+    height: 1.75rem;
+    width: 11.5rem;
+}
+
+.main__skeleton-image {
+    height: 3.5rem;
+    width: 3.75rem;
+}
+.main__skeleton-weather {
+    height: 1.75rem;
+    width: 3.75rem;
+}
+
+.main--loading {
+    border-radius: 0.75rem;
+    animation: skeleton-loading 1s linear infinite alternate;
+}
+
+@keyframes skeleton-loading {
+    0% {
+        background-color: hsl(200, 20%, 70%);
+    }
+
+    100% {
+        background-color: hsl(200, 20%, 95%);
+    }
+}
+
 .main__weather-details {
     display: flex;
     align-items: flex-end;

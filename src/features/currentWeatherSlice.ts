@@ -4,29 +4,32 @@ import formatTime from '../utils/formatDate';
 interface CurrentWeather {
     cityName: string;
     degrees: string;
-    temp_max: string;
-    temp_low: string;
     humidity: string;
     wind: string;
     time: string;
     date: string;
     weather: string;
     icon: string;
+
+}
+
+interface CurrentWeatherState {
+    currentWeather: CurrentWeather;
     loading: boolean;
     error: string;
 }
 
-const initialCurrentWeatherState: CurrentWeather = {
-    cityName: '',
-    degrees: '',
-    temp_max: '',
-    temp_low: '',
-    humidity: '',
-    wind: '',
-    weather: '',
-    time: '',
-    date: '',
-    icon: '',
+const initialCurrentWeatherState: CurrentWeatherState = {
+    currentWeather: {
+        cityName: '',
+        degrees: '',
+        humidity: '',
+        wind: '',
+        weather: '',
+        time: '',
+        date: '',
+        icon: ''
+    },
     loading: true,
     error: ''
 };
@@ -71,14 +74,7 @@ const currentWeatherSlice = createSlice({
             })
             .addCase(fetchCurrentWeatherData.fulfilled, (state, action) => {
                 state.loading = false;
-                state.cityName = action.payload.cityName;
-                state.degrees = action.payload.degrees;
-                state.time = action.payload.time;
-                state.date = action.payload.date;
-                state.humidity = action.payload.humidity;
-                state.wind = action.payload.wind;
-                state.weather = action.payload.weather;
-                state.icon = action.payload.icon;
+                state.currentWeather = action.payload;
             })
             .addCase(fetchCurrentWeatherData.rejected, (state, action) => {
                 state.loading = false;

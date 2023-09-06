@@ -31,6 +31,7 @@
     background-color: #d66c05;
     padding: 1.5rem 2rem;
     font-size: 1.5rem;
+    cursor: pointer;
 }
 
 .aside__dropdown {
@@ -45,6 +46,29 @@
     border-radius: 1rem;
     font-size: 1.25rem;
     color: var(--secondary-white);
+}
+
+.aside__skeleton, .aside__skeleton-weather {
+    height: 1.875rem;
+    width: 100%;
+    border-radius: 0.75rem;
+    animation: skeleton-loading 1s linear infinite alternate;
+    opacity: 0.3;
+}
+
+.aside__skeleton-weather {
+    height: 10rem;
+    border-radius: 0.75rem;
+}
+
+@keyframes skeleton-loading {
+    0% {
+        background-color: hsl(200, 20%, 70%);
+    }
+
+    100% {
+        background-color: hsl(200, 20%, 95%);
+    }
 }
 
 .aside__weather-details {

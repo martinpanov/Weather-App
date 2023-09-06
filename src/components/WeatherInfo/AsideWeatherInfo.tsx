@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import styles from './WeatherInfo.module.css';
+import styles from './AsideWeatherInfo.module.css';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchFiveDaysWeatherData } from '../../features/fiveDaysWeatherSlice';
 import { AppDispatch, RootState } from '../../store';
@@ -8,10 +8,10 @@ import getDailyForecast from '../../utils/getDailyForecast';
 import citiesData from "../../../city.list.json";
 
 interface FiveDaysWeather {
-    degrees: string,
+    degrees: number,
     time: string,
     date: string,
-    precipitation: string,
+    precipitation: number,
     weather: string,
     icon: string;
 }
@@ -32,13 +32,13 @@ export default function WeatherInfo() {
 
     const [cityName, setCityName] = useState('Plovdiv');
     const [isDropDownOpen, setIsDropDownOpen] = useState(false);
-    const [todaysWeather, setTodaysWeather] = useState([]);
+    const [todaysWeather, setTodaysWeather] = useState<FiveDaysWeather[]>([]);
     const [todaysDegreesHigh, setTodaysDegreesHigh] = useState(0);
     const [todaysDegreesLow, setTodaysDegreesLow] = useState(0);
 
     const dispatch: AppDispatch = useDispatch();
     const { fiveDaysWeather, loading, error } = useSelector((state: RootState) => state.fiveDaysWeather);
-    const currentWeatherDetails = useSelector((state: RootState) => state.currentWeather);
+    const { currentWeather } = useSelector((state: RootState) => state.currentWeather);
 
     const dailyForecast = getDailyForecast(fiveDaysWeather);
 
@@ -48,7 +48,7 @@ export default function WeatherInfo() {
     }, []);
 
     useEffect(() => {
-        if (fiveDaysWeather) {
+        if (fiveDaysWeather && fiveDaysWeather.length > 0) {
             const filteredTodaysWeather = fiveDaysWeather.filter((weather: FiveDaysWeather) => weather.date === fiveDaysWeather[0].date);
             setTodaysDegreesHigh(Math.max(...filteredTodaysWeather.map((weather: FiveDaysWeather) => Number(weather.degrees))));
             setTodaysDegreesLow(Math.min(...filteredTodaysWeather.map((weather: FiveDaysWeather) => Number(weather.degrees))));
@@ -122,39 +122,72 @@ export default function WeatherInfo() {
                 <h2 className={styles["aside__weather-info-title"]}>Weather Details</h2>
                 <ul className={styles["aside__weather-info-list"]} role='list'>
                     <li className={styles["aside__weather-info-list-item"]}>
-                        <span className={styles["aside__weather-info-type"]}>High</span>
-                        <span className={styles["aside__weather-info-value"]}>{todaysDegreesHigh}&deg;</span>
+                        {loading ? <div className={styles["aside__skeleton"]}></div>
+                            :
+                            <>
+                                <span className={styles["aside__weather-info-type"]}>High</span>
+                                <span className={styles["aside__weather-info-value"]}>{todaysDegreesHigh}&deg;</span>
+                            </>
+                        }
                     </li>
                     <li className={styles["aside__weather-info-list-item"]}>
-                        <span className={styles["aside__weather-info-type"]}>Low</span>
-                        <span className={styles["aside__weather-info-value"]}>{todaysDegreesLow}&deg;</span>
+                        {loading ? <div className={styles["aside__skeleton"]}></div>
+                            :
+                            <>
+                                <span className={styles["aside__weather-info-type"]}>Low</span>
+                                <span className={styles["aside__weather-info-value"]}>{todaysDegreesLow}&deg;</span>
+                            </>
+                        }
                     </li>
                     <li className={styles["aside__weather-info-list-item"]}>
-                        <span className={styles["aside__weather-info-type"]}>Humidity</span>
-                        <span className={styles["aside__weather-info-value"]}>{currentWeatherDetails.humidity}&#37;</span>
+                        {loading ? <div className={styles["aside__skeleton"]}></div>
+                            :
+                            <>
+                                <span className={styles["aside__weather-info-type"]}>Humidity</span>
+                                <span className={styles["aside__weather-info-value"]}>{currentWeather.humidity}&#37;</span>
+                            </>
+                        }
                     </li>
                     <li className={styles["aside__weather-info-list-item"]}>
-                        <span className={styles["aside__weather-info-type"]}>Wind</span>
-                        <span className={styles["aside__weather-info-value"]}>{currentWeatherDetails.wind} km/h</span>
+                        {loading ? <div className={styles["aside__skeleton"]}></div>
+                            :
+                            <>
+                                <span className={styles["aside__weather-info-type"]}>Wind</span>
+                                <span className={styles["aside__weather-info-value"]}>{currentWeather.wind} km/h</span>
+                            </>
+                        }
                     </li>
                     <li className={styles["aside__weather-info-list-item"]}>
-                        <span className={styles["aside__weather-info-type"]}>Precipitation</span>
-                        {/* @ts-ignore */}
-                        <span className={styles["aside__weather-info-value"]}>{todaysWeather[0]?.precipitation * 100}%</span>
+                        {loading ? <div className={styles["aside__skeleton"]}></div>
+                            :
+                            todaysWeather.length > 0 ?
+                                <>
+                                    <span className={styles["aside__weather-info-type"]}>Precipitation</span>
+                                    <span className={styles["aside__weather-info-value"]}>{todaysWeather[0].precipitation * 100}%</span>
+                                </>
+                                :
+                                <>
+                                    <span className={styles["aside__weather-info-type"]}>Precipitation</span>
+                                    <span className={styles["aside__weather-info-value"]}>0%</span>
+                                </>
+                        }
                     </li>
                 </ul>
             </div>
             <div className={styles["aside__weather-details"]}>
                 <h2 className={styles["aside__weather-info-title"]}>Today's Forecast</h2>
-                <ul className={styles["aside__weather-time-list"]} role='list'>
-                    {todaysWeather.map((weather: FiveDaysWeather, index) => (
-                        <li className={styles["aside__weather-time-list-item"]} key={index}>
-                            <span className={styles["aside__weather-time"]}>{weather.time}</span>
-                            <img src={weather.icon} alt="weather" />
-                            <span className={styles["aside__weather-degrees"]}>{weather.degrees}&deg;</span>
-                        </li>
-                    ))}
-                </ul>
+                {loading ? <div className={styles["aside__skeleton-weather"]}></div>
+                    :
+                    <ul className={styles["aside__weather-time-list"]} role='list'>
+                        {todaysWeather.map((weather: FiveDaysWeather, index) => (
+                            <li className={styles["aside__weather-time-list-item"]} key={index}>
+                                <span className={styles["aside__weather-time"]}>{weather.time}</span>
+                                <img src={weather.icon} alt="weather" />
+                                <span className={styles["aside__weather-degrees"]}>{weather.degrees}&deg;</span>
+                            </li>
+                        ))}
+                    </ul>
+                }
             </div>
             <div className={styles["aside__weather-details"]}>
                 <h2 className={styles["aside__weather-info-title"]}>Daily Forecast</h2>

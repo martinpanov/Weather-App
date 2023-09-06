@@ -1,23 +1,23 @@
 import { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import './App.css';
 import MainWeatherInfo from './components/MainWeatherInfo/MainWeatherInfo';
-import WeatherInfo from './components/WeatherInfo/WeatherInfo';
+import WeatherInfo from './components/WeatherInfo/AsideWeatherInfo';
 import { RootState } from './store';
 
 function App() {
-    const currentWeatherDetails = useSelector((state: RootState) => state.currentWeather);
+    const { currentWeather } = useSelector((state: RootState) => state.currentWeather);
     const [backgroundImage, setBackGroundImage] = useState('');
 
     useEffect(() => {
-        if (currentWeatherDetails.weather && currentWeatherDetails.time) {
-            const timeInGBFormat = new Date(`${currentWeatherDetails.date} ${currentWeatherDetails.time}`);
+        if (currentWeather.weather && currentWeather.time) {
+            const timeInGBFormat = new Date(`${currentWeather.date} ${currentWeather.time}`);
             const hours = timeInGBFormat.getHours();
             const minutes = timeInGBFormat.getMinutes();
 
             const timeAsNumber = hours * 100 + minutes;
 
-            switch (currentWeatherDetails.weather) {
+            switch (currentWeather.weather) {
                 case 'Clear':
                     if (timeAsNumber > 1800 || timeAsNumber < 500) {
                         setBackGroundImage('./clear-night.jpg');
@@ -62,7 +62,7 @@ function App() {
                     break;
             }
         }
-    }, [currentWeatherDetails]);
+    }, [currentWeather]);
 
     return (
         <>

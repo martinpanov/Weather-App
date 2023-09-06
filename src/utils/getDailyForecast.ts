@@ -1,5 +1,5 @@
 interface FiveDaysWeather {
-    degrees: string,
+    degrees: number,
     time: string,
     date: string,
     weather: string,
