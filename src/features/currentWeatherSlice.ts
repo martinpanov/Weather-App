@@ -3,14 +3,13 @@ import formatTime from '../utils/formatDate';
 
 interface CurrentWeather {
     cityName: string;
-    degrees: string;
-    humidity: string;
-    wind: string;
+    degrees: number;
+    humidity: number;
+    wind: number;
     time: string;
     date: string;
     weather: string;
     icon: string;
-
 }
 
 interface CurrentWeatherState {
@@ -22,9 +21,9 @@ interface CurrentWeatherState {
 const initialCurrentWeatherState: CurrentWeatherState = {
     currentWeather: {
         cityName: '',
-        degrees: '',
-        humidity: '',
-        wind: '',
+        degrees: 0,
+        humidity: 0,
+        wind: 0,
         weather: '',
         time: '',
         date: '',
@@ -47,7 +46,7 @@ export const fetchCurrentWeatherData = createAsyncThunk('currentWeather/fetchDat
 
         const formattedData = {
             cityName: currentWeatherData.name,
-            degrees: currentWeatherData.main.temp.toFixed(0),
+            degrees: Number(currentWeatherData.main.temp.toFixed(0)),
             time: formatTime(currentWeatherData.timezone, 0),
             date: new Date(currentWeatherData.dt * 1000).toLocaleDateString('en-GB'),
             humidity: currentWeatherData.main.humidity,

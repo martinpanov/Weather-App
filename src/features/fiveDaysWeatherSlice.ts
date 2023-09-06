@@ -34,7 +34,7 @@ export const fetchFiveDaysWeatherData = createAsyncThunk('fiveDaysWeather/fetchD
 
         const formattedData = fiveDaysWeatherData.list.map((day: any) => {
             return {
-                degrees: day.main.temp.toFixed(0),
+                degrees: Number(day.main.temp.toFixed(0)),
                 time: formatTime(fiveDaysWeatherData.city.timezone, day.dt * 1000),
                 date: new Date(day.dt * 1000).toLocaleDateString('en-GB'),
                 precipitation: day.pop,

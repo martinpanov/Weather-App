@@ -1,7 +1,7 @@
 .aside {
     position: relative;
     height: 100vh;
-    width: 40%;
+    width: 50%;
     padding: 3rem 4.5rem;
     background-color: rgba(255, 255, 255, 0.05);
     backdrop-filter: blur(2rem);
@@ -48,18 +48,25 @@
     color: var(--secondary-white);
 }
 
-.aside__skeleton, .aside__skeleton-weather {
-    height: 1.875rem;
+.aside--skeleton {
     width: 100%;
     border-radius: 0.75rem;
     animation: skeleton-loading 1s linear infinite alternate;
     opacity: 0.3;
 }
 
-.aside__skeleton-weather {
-    height: 10rem;
-    border-radius: 0.75rem;
+.aside__skeleton-text {
+    height: 1.875rem;
 }
+
+.aside__skeleton-today-weather {
+    height: 10rem;
+}
+
+.aside__skeleton-daily-weather {
+    height: 20rem;
+}
+
 
 @keyframes skeleton-loading {
     0% {
@@ -98,7 +105,9 @@
 }
 
 .aside__weather-time-list-item {
-    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .aside__weather-info-type, .aside__weather-time {

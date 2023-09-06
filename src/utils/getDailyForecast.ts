@@ -26,7 +26,7 @@ export default function getDailyForecast(fiveDaysWeather: FiveDaysWeather[]) {
 
     const averageDegrees = Array.from(Object.entries(dailyForecast)).map(([date, degreesArrayAndIcon]: [string, any]) => ({
         date,
-        degrees: (degreesArrayAndIcon.degrees.reduce((acc: number, degrees: string) => acc + Number(degrees), 0) / degreesArrayAndIcon.degrees.length).toFixed(0),
+        degrees: (degreesArrayAndIcon.degrees.reduce((acc: number, degrees: number) => acc + degrees, 0) / degreesArrayAndIcon.degrees.length).toFixed(0),
         icon: degreesArrayAndIcon.icon
     }));
 

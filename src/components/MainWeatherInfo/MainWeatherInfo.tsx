@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux';
 import { RootState } from '../../store';
 
 export default function MainWeatherInfo() {
-    const { currentWeather, loading, error } = useSelector((state: RootState) => state.currentWeather);
+    const { currentWeather, loading } = useSelector((state: RootState) => state.currentWeather);
 
     return (
         <>

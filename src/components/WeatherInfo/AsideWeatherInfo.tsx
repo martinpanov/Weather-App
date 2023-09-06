@@ -27,17 +27,22 @@ interface Cities {
     };
 }
 
+interface WeatherDetails {
+    name: string;
+    value: number;
+    unit: string;
+}
+
 export default function WeatherInfo() {
     const cities: Cities[] = citiesData as Cities[];
 
     const [cityName, setCityName] = useState('Plovdiv');
     const [isDropDownOpen, setIsDropDownOpen] = useState(false);
+    const [weatherDetails, setWeatherDetails] = useState<WeatherDetails[]>([]);
     const [todaysWeather, setTodaysWeather] = useState<FiveDaysWeather[]>([]);
-    const [todaysDegreesHigh, setTodaysDegreesHigh] = useState(0);
-    const [todaysDegreesLow, setTodaysDegreesLow] = useState(0);
 
     const dispatch: AppDispatch = useDispatch();
-    const { fiveDaysWeather, loading, error } = useSelector((state: RootState) => state.fiveDaysWeather);
+    const { fiveDaysWeather, loading } = useSelector((state: RootState) => state.fiveDaysWeather);
     const { currentWeather } = useSelector((state: RootState) => state.currentWeather);
 
     const dailyForecast = getDailyForecast(fiveDaysWeather);
@@ -50,8 +55,33 @@ export default function WeatherInfo() {
     useEffect(() => {
         if (fiveDaysWeather && fiveDaysWeather.length > 0) {
             const filteredTodaysWeather = fiveDaysWeather.filter((weather: FiveDaysWeather) => weather.date === fiveDaysWeather[0].date);
-            setTodaysDegreesHigh(Math.max(...filteredTodaysWeather.map((weather: FiveDaysWeather) => Number(weather.degrees))));
-            setTodaysDegreesLow(Math.min(...filteredTodaysWeather.map((weather: FiveDaysWeather) => Number(weather.degrees))));
+            setWeatherDetails([
+                {
+                    name: 'High',
+                    value: Math.max(...filteredTodaysWeather.map((weather: FiveDaysWeather) => weather.degrees)),
+                    unit: '°'
+                },
+                {
+                    name: 'Low',
+                    value: Math.min(...filteredTodaysWeather.map((weather: FiveDaysWeather) => weather.degrees)),
+                    unit: '°'
+                },
+                {
+                    name: 'Humidity',
+                    value: currentWeather.humidity,
+                    unit: '%'
+                },
+                {
+                    name: 'Wind',
+                    value: currentWeather.wind,
+                    unit: 'km/h'
+                },
+                {
+                    name: 'Precipitation',
+                    value: filteredTodaysWeather[0].precipitation,
+                    unit: '%'
+                }
+            ]);
             setTodaysWeather(filteredTodaysWeather);
         }
     }, [fiveDaysWeather]);
@@ -108,12 +138,9 @@ export default function WeatherInfo() {
             <form action="" onSubmit={handleSubmit}>
                 <input className={styles["aside__input"]} placeholder='Location' type="text" value={cityName} onChange={handleChange} />
                 {isDropDownOpen ?
-                    <>
-                        <div className={styles["aside__dropdown"]} >
-                            {citiesDropDown()}
-                        </div>
-                        <div className={styles["overlay"]}></div>
-                    </>
+                    <div className={styles["aside__dropdown"]} >
+                        {citiesDropDown()}
+                    </div>
                     :
                     null}
                 <button className={styles["aside__search-button"]}><i className="fa-solid fa-magnifying-glass"></i></button>
@@ -121,62 +148,24 @@ export default function WeatherInfo() {
             <div className={styles["aside__weather-details"]}>
                 <h2 className={styles["aside__weather-info-title"]}>Weather Details</h2>
                 <ul className={styles["aside__weather-info-list"]} role='list'>
-                    <li className={styles["aside__weather-info-list-item"]}>
-                        {loading ? <div className={styles["aside__skeleton"]}></div>
-                            :
-                            <>
-                                <span className={styles["aside__weather-info-type"]}>High</span>
-                                <span className={styles["aside__weather-info-value"]}>{todaysDegreesHigh}&deg;</span>
-                            </>
-                        }
-                    </li>
-                    <li className={styles["aside__weather-info-list-item"]}>
-                        {loading ? <div className={styles["aside__skeleton"]}></div>
-                            :
-                            <>
-                                <span className={styles["aside__weather-info-type"]}>Low</span>
-                                <span className={styles["aside__weather-info-value"]}>{todaysDegreesLow}&deg;</span>
-                            </>
-                        }
-                    </li>
-                    <li className={styles["aside__weather-info-list-item"]}>
-                        {loading ? <div className={styles["aside__skeleton"]}></div>
-                            :
-                            <>
-                                <span className={styles["aside__weather-info-type"]}>Humidity</span>
-                                <span className={styles["aside__weather-info-value"]}>{currentWeather.humidity}&#37;</span>
-                            </>
-                        }
-                    </li>
-                    <li className={styles["aside__weather-info-list-item"]}>
-                        {loading ? <div className={styles["aside__skeleton"]}></div>
-                            :
-                            <>
-                                <span className={styles["aside__weather-info-type"]}>Wind</span>
-                                <span className={styles["aside__weather-info-value"]}>{currentWeather.wind} km/h</span>
-                            </>
-                        }
-                    </li>
-                    <li className={styles["aside__weather-info-list-item"]}>
-                        {loading ? <div className={styles["aside__skeleton"]}></div>
-                            :
-                            todaysWeather.length > 0 ?
-                                <>
-                                    <span className={styles["aside__weather-info-type"]}>Precipitation</span>
-                                    <span className={styles["aside__weather-info-value"]}>{todaysWeather[0].precipitation * 100}%</span>
-                                </>
-                                :
-                                <>
-                                    <span className={styles["aside__weather-info-type"]}>Precipitation</span>
-                                    <span className={styles["aside__weather-info-value"]}>0%</span>
-                                </>
-                        }
-                    </li>
+                    {weatherDetails.map((detail) => {
+                        return (
+                            <li className={styles["aside__weather-info-list-item"]} key={detail.name}>
+                                {loading ? <div className={`${styles["aside__skeleton-text"]} ${styles["aside--skeleton"]}`}></div>
+                                    :
+                                    <>
+                                        <span className={styles["aside__weather-info-type"]}>{detail.name}</span>
+                                        <span className={styles["aside__weather-info-value"]}>{detail.value}{detail.unit}</span>
+                                    </>
+                                }
+                            </li>
+                        );
+                    })}
                 </ul>
             </div>
             <div className={styles["aside__weather-details"]}>
                 <h2 className={styles["aside__weather-info-title"]}>Today's Forecast</h2>
-                {loading ? <div className={styles["aside__skeleton-weather"]}></div>
+                {loading ? <div className={`${styles["aside__skeleton-today-weather"]} ${styles["aside--skeleton"]}`}></div>
                     :
                     <ul className={styles["aside__weather-time-list"]} role='list'>
                         {todaysWeather.map((weather: FiveDaysWeather, index) => (
@@ -191,15 +180,18 @@ export default function WeatherInfo() {
             </div>
             <div className={styles["aside__weather-details"]}>
                 <h2 className={styles["aside__weather-info-title"]}>Daily Forecast</h2>
-                <ul className={styles["aside__weather-time-list"]} role='list'>
-                    {dailyForecast.map((weather, index) => (
-                        <li className={styles["aside__weather-time-list-item"]} key={index}>
-                            <span className={styles["aside__weather-time"]}>{weather.date}</span>
-                            <img src={weather.icon} alt="weather" />
-                            <span className={styles["aside__weather-degrees"]}>{weather.degrees}&deg;</span>
-                        </li>
-                    ))}
-                </ul>
+                {loading ? <div className={`${styles["aside__skeleton-daily-weather"]} ${styles["aside--skeleton"]}`}></div>
+                    :
+                    <ul className={styles["aside__weather-time-list"]} role='list'>
+                        {dailyForecast.map((weather, index) => (
+                            <li className={styles["aside__weather-time-list-item"]} key={index}>
+                                <span className={styles["aside__weather-time"]}>{weather.date}</span>
+                                <img src={weather.icon} alt="weather" />
+                                <span className={styles["aside__weather-degrees"]}>{weather.degrees}&deg;</span>
+                            </li>
+                        ))}
+                    </ul>
+                }
             </div>
         </aside>
     );
