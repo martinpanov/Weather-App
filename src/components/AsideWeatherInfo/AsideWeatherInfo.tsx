@@ -1,11 +1,9 @@
 import { useEffect, useState } from 'react';
-import styles from './AsideWeatherInfo.module.css';
-import { useDispatch, useSelector } from 'react-redux';
-import { fetchFiveDaysWeatherData } from '../../features/fiveDaysWeatherSlice';
-import { AppDispatch, RootState } from '../../store';
-import { fetchCurrentWeatherData } from '../../features/currentWeatherSlice';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../store';
 import getDailyForecast from '../../utils/getDailyForecast';
-import citiesData from "../../../city.list.json";
+import styles from './AsideWeatherInfo.module.css';
+import Form from './Form/Form';
 
 interface FiveDaysWeather {
     degrees: number,
@@ -16,17 +14,6 @@ interface FiveDaysWeather {
     icon: string;
 }
 
-interface Cities {
-    id: number;
-    name: string;
-    state: string;
-    country: string;
-    coord: {
-        lon: number;
-        lat: number;
-    };
-}
-
 interface WeatherDetails {
     name: string;
     value: number;
@@ -34,23 +21,13 @@ interface WeatherDetails {
 }
 
 export default function WeatherInfo() {
-    const cities: Cities[] = citiesData as Cities[];
-
-    const [cityName, setCityName] = useState('Plovdiv');
-    const [isDropDownOpen, setIsDropDownOpen] = useState(false);
     const [weatherDetails, setWeatherDetails] = useState<WeatherDetails[]>([]);
     const [todaysWeather, setTodaysWeather] = useState<FiveDaysWeather[]>([]);
 
-    const dispatch: AppDispatch = useDispatch();
     const { fiveDaysWeather, loading } = useSelector((state: RootState) => state.fiveDaysWeather);
     const { currentWeather } = useSelector((state: RootState) => state.currentWeather);
 
     const dailyForecast = getDailyForecast(fiveDaysWeather);
-
-    useEffect(() => {
-        dispatch(fetchFiveDaysWeatherData(cityName));
-        dispatch(fetchCurrentWeatherData(cityName));
-    }, []);
 
     useEffect(() => {
         if (fiveDaysWeather && fiveDaysWeather.length > 0) {
@@ -86,65 +63,9 @@ export default function WeatherInfo() {
         }
     }, [fiveDaysWeather]);
 
-
-    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-        e.preventDefault();
-        setIsDropDownOpen(false);
-        dispatch(fetchFiveDaysWeatherData(cityName));
-        dispatch(fetchCurrentWeatherData(cityName));
-    };
-
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setCityName(e.target.value);
-        setIsDropDownOpen(true);
-    };
-
-    const citiesDropDown = () => {
-        const searchTerm = cityName.toLowerCase();
-        let cityNameAfterFilter = '';
-
-        const filteredCities = cities.filter((city: any) => {
-            const name = city.name.toLowerCase();
-
-            if (searchTerm && name.includes(searchTerm)) {
-                cityNameAfterFilter = city.name.toLowerCase();
-                return true;
-            }
-
-            return false;
-        });
-
-        if (filteredCities.length <= 1 && cityNameAfterFilter === searchTerm) {
-            setIsDropDownOpen(false);
-            return <span></span>;
-        }
-
-        if (filteredCities.length <= 1 && !cityNameAfterFilter.includes(searchTerm)) {
-            return <p>No cities found</p>;
-        }
-
-        return filteredCities
-            .slice(0, 10)
-            .map((city: any) => <span onClick={() => handleCitySuggestionClick(city.name)} key={city.id}>{city.name}</span>);
-    };
-
-    const handleCitySuggestionClick = (city: string) => {
-        setCityName(city);
-        setIsDropDownOpen(false);
-    };
-
     return (
         <aside className={styles["aside"]}>
-            <form action="" onSubmit={handleSubmit}>
-                <input className={styles["aside__input"]} placeholder='Location' type="text" value={cityName} onChange={handleChange} />
-                {isDropDownOpen ?
-                    <div className={styles["aside__dropdown"]} >
-                        {citiesDropDown()}
-                    </div>
-                    :
-                    null}
-                <button className={styles["aside__search-button"]}><i className="fa-solid fa-magnifying-glass"></i></button>
-            </form>
+            <Form />
             <div className={styles["aside__weather-details"]}>
                 <h2 className={styles["aside__weather-info-title"]}>Weather Details</h2>
                 <ul className={styles["aside__weather-info-list"]} role='list'>

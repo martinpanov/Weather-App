@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import './App.css';
 import MainWeatherInfo from './components/MainWeatherInfo/MainWeatherInfo';
-import WeatherInfo from './components/WeatherInfo/AsideWeatherInfo';
+import WeatherInfo from './components/AsideWeatherInfo/AsideWeatherInfo';
 import { RootState } from './store';
 
 function App() {
