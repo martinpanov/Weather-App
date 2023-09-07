@@ -1,7 +1,9 @@
 .aside {
-    position: relative;
-    height: 100vh;
-    width: 50%;
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    width: 40%;
+    height: 100%;
     padding: 3rem 4.5rem;
     background-color: rgba(255, 255, 255, 0.05);
     backdrop-filter: blur(2rem);
@@ -128,4 +130,58 @@
     justify-content: space-between;
     gap: 3rem;
     font-size: 1.25rem;
+}
+
+
+@media (max-width: 568px) {
+    .aside {
+        padding: 3rem 3rem;
+    }
+
+    .aside__input {
+        font-size: 1rem;
+    }
+
+    .aside__search-button {
+        padding: 1.5rem 1.75rem;
+        font-size: 1.25rem;
+    }
+
+    .aside__weather-info-title {
+        font-size: 1.25rem;
+    }
+
+    .aside__weather-info-list {
+        font-size: 1rem;
+    }
+
+    .aside__weather-time-list {
+        grid-template-columns: repeat(2, 1fr);
+        font-size: 1rem;
+    }
+
+    .aside__weather-time-list-item img{
+        height: 4rem;
+    }
+
+    .aside__weather-degrees {
+        font-size: 1.25rem;
+    }
+}
+
+@media (max-width: 1024px) {   
+    .aside__weather-time-list {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+@media (max-width: 1320px) {
+    .aside {
+        height: 70%;
+        width: 100%;
+    }
+
+    .aside__weather-time-list {
+        grid-template-columns: repeat(2, 1fr);
+    }
 }

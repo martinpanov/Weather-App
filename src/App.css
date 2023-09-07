@@ -77,20 +77,19 @@ select {
 }
 
 :root {
-  --primary-white: #ffffff;
-  --secondary-white: #e6e6e6;
+    --primary-white: #ffffff;
+    --secondary-white: #e6e6e6;
 }
 
 #root {
-  display: flex;
-  flex-direction: row-reverse;
+    min-height: 100vh;
 }
 
 .main__background-image {
-  position: absolute;
-  z-index: -1;
-  height: 100%;
-  width: 100%;
-  object-fit: cover;
-  filter: brightness(70%);
+    position: absolute;
+    z-index: -1;
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+    filter: brightness(70%);
 }

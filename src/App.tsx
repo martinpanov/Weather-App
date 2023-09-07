@@ -67,8 +67,8 @@ function App() {
     return (
         <>
             <img className="main__background-image" src={backgroundImage} alt="day-cloudy" />
-            <WeatherInfo />
             <MainWeatherInfo />
+            <WeatherInfo />
         </>
     );
 }
