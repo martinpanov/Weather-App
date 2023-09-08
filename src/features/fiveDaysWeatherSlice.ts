@@ -10,19 +10,28 @@ interface FiveDaysWeather {
     icon: string;
 }
 
+interface ErrorType {
+    message: string;
+    sliceName: string;
+}
+
 interface FiveDaysWeatherState {
     fiveDaysWeather: FiveDaysWeather[];
     loading: boolean;
-    error: string;
+    error: ErrorType;
 }
+
 
 const initialFiveDaysWeatherState: FiveDaysWeatherState = {
     fiveDaysWeather: [],
     loading: true,
-    error: ''
+    error: {
+        message: '',
+        sliceName: ''
+    }
 };
 
-export const fetchFiveDaysWeatherData = createAsyncThunk('fiveDaysWeather/fetchData', async (cityName: string) => {
+export const fetchFiveDaysWeatherData = createAsyncThunk('fiveDaysWeather/fetchData', async (cityName: string, { rejectWithValue }) => {
     try {
         const response = await fetch(`https://api.openweathermap.org/data/2.5/forecast?q=${cityName}&appid=${import.meta.env.VITE_OPEN_WEATHER_API_KEY}&units=metric`);
 
@@ -35,8 +44,8 @@ export const fetchFiveDaysWeatherData = createAsyncThunk('fiveDaysWeather/fetchD
         const formattedData = fiveDaysWeatherData.list.map((day: any) => {
             return {
                 degrees: Number(day.main.temp.toFixed(0)),
-                time: formatTime(fiveDaysWeatherData.city.timezone, day.dt * 1000),
-                date: new Date(day.dt * 1000).toLocaleDateString('en-GB'),
+                time: formatTime(fiveDaysWeatherData.city.timezone, day.dt * 1000, 'time'),
+                date: formatTime(fiveDaysWeatherData.city.timezone, day.dt * 1000, 'date'),
                 precipitation: day.pop,
                 weather: day.weather[0].main,
                 icon: `https://openweathermap.org/img/wn/${day.weather[0].icon}@2x.png`,
@@ -45,8 +54,11 @@ export const fetchFiveDaysWeatherData = createAsyncThunk('fiveDaysWeather/fetchD
 
         return formattedData;
     } catch (error) {
-        console.error(error);
-        throw error;
+        if (error instanceof Error) {
+            return rejectWithValue({ message: error.message, sliceName: 'fiveDaysWeather' });
+        } else {
+            return rejectWithValue('An unknown error occurred');
+        }
     }
 });
 
@@ -58,7 +70,10 @@ const fiveDaysWeatherSlice = createSlice({
         builder
             .addCase(fetchFiveDaysWeatherData.pending, (state) => {
                 state.loading = true;
-                state.error = '';
+                state.error = {
+                    message: '',
+                    sliceName: ''
+                };
             })
             .addCase(fetchFiveDaysWeatherData.fulfilled, (state, action) => {
                 state.loading = false;
@@ -66,7 +81,7 @@ const fiveDaysWeatherSlice = createSlice({
             })
             .addCase(fetchFiveDaysWeatherData.rejected, (state, action) => {
                 state.loading = false;
-                state.error = action.error.message || 'An error occured';
+                state.error = action.payload as ErrorType;
             });
     }
 });

@@ -4,6 +4,8 @@ import './App.css';
 import MainWeatherInfo from './components/MainWeatherInfo/MainWeatherInfo';
 import WeatherInfo from './components/AsideWeatherInfo/AsideWeatherInfo';
 import { RootState } from './store';
+import { Toaster } from 'react-hot-toast';
+
 
 function App() {
     const { currentWeather } = useSelector((state: RootState) => state.currentWeather);
@@ -66,6 +68,9 @@ function App() {
 
     return (
         <>
+            <Toaster
+                reverseOrder={true}
+            />
             <img className="main__background-image" src={backgroundImage} alt="day-cloudy" />
             <MainWeatherInfo />
             <WeatherInfo />

@@ -12,10 +12,15 @@ interface CurrentWeather {
     icon: string;
 }
 
+interface ErrorType {
+    message: string;
+    sliceName: string;
+}
+
 interface CurrentWeatherState {
     currentWeather: CurrentWeather;
     loading: boolean;
-    error: string;
+    error: ErrorType;
 }
 
 const initialCurrentWeatherState: CurrentWeatherState = {
@@ -30,11 +35,14 @@ const initialCurrentWeatherState: CurrentWeatherState = {
         icon: ''
     },
     loading: true,
-    error: ''
+    error: {
+        message: '',
+        sliceName: ''
+    }
 };
 
 
-export const fetchCurrentWeatherData = createAsyncThunk('currentWeather/fetchData', async (cityName: string) => {
+export const fetchCurrentWeatherData = createAsyncThunk('currentWeather/fetchData', async (cityName: string, { rejectWithValue }) => {
     try {
         const response = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${cityName}&appid=${import.meta.env.VITE_OPEN_WEATHER_API_KEY}&units=metric`);
 
@@ -47,7 +55,7 @@ export const fetchCurrentWeatherData = createAsyncThunk('currentWeather/fetchDat
         const formattedData = {
             cityName: currentWeatherData.name,
             degrees: Number(currentWeatherData.main.temp.toFixed(0)),
-            time: formatTime(currentWeatherData.timezone, 0),
+            time: formatTime(currentWeatherData.timezone, 0, 'time'),
             date: new Date(currentWeatherData.dt * 1000).toLocaleDateString('en-GB'),
             humidity: currentWeatherData.main.humidity,
             wind: currentWeatherData.wind.speed,
@@ -57,7 +65,11 @@ export const fetchCurrentWeatherData = createAsyncThunk('currentWeather/fetchDat
 
         return formattedData;
     } catch (error) {
-        throw error;
+        if (error instanceof Error) {
+            return rejectWithValue({ message: error.message, sliceName: 'currentWeather' });
+        } else {
+            return rejectWithValue('An unknown error occurred');
+        }
     }
 });
 
@@ -69,7 +81,10 @@ const currentWeatherSlice = createSlice({
         builder
             .addCase(fetchCurrentWeatherData.pending, (state) => {
                 state.loading = true;
-                state.error = '';
+                state.error = {
+                    message: '',
+                    sliceName: ''
+                };
             })
             .addCase(fetchCurrentWeatherData.fulfilled, (state, action) => {
                 state.loading = false;
@@ -77,7 +92,7 @@ const currentWeatherSlice = createSlice({
             })
             .addCase(fetchCurrentWeatherData.rejected, (state, action) => {
                 state.loading = false;
-                state.error = action.error.message || 'An error occured';
+                state.error = action.payload as ErrorType;
             });
     }
 });
