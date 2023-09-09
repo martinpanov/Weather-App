@@ -35,11 +35,11 @@ export const fetchFiveDaysWeatherData = createAsyncThunk('fiveDaysWeather/fetchD
     try {
         const response = await fetch(`https://api.openweathermap.org/data/2.5/forecast?q=${cityName}&appid=${import.meta.env.VITE_OPEN_WEATHER_API_KEY}&units=metric`);
 
-        if (!response.ok) {
-            throw new Error('Failed to fetch weather data');
-        }
-
         const fiveDaysWeatherData = await response.json();
+
+        if (!response.ok) {
+            throw new Error(fiveDaysWeatherData.message);
+        }
 
         const formattedData = fiveDaysWeatherData.list.map((day: any) => {
             return {

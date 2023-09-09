@@ -1,7 +1,7 @@
 import { useSelector } from 'react-redux';
 import { RootState } from '../../store';
-import { useEffect } from 'react';
-import getDailyForecast from '../../utils/getDailyForecast';
+import { useEffect, useState } from 'react';
+import useDailyForecast from '../../utils/useDailyForecast';
 import styles from './AsideWeatherInfo.module.css';
 import Form from './Form/Form';
 import toast from 'react-hot-toast';
@@ -21,56 +21,64 @@ interface WeatherDetails {
     unit: string;
 }
 
+interface DailyForecast {
+    date: string;
+    degrees: number;
+    icon: string;
+}
+
 export default function WeatherInfo() {
-    let weatherDetails: WeatherDetails[] = [];
-    let todaysWeather: FiveDaysWeather[] = [];
+    const [weatherDetails, setWeatherDetails] = useState<WeatherDetails[]>([]);
+    const [todaysWeather, setTodaysWeather] = useState<FiveDaysWeather[]>([]);
 
     const { fiveDaysWeather, loading, error: fiveDaysError } = useSelector((state: RootState) => state.fiveDaysWeather);
     const { currentWeather, error: currentWeatherError } = useSelector((state: RootState) => state.currentWeather);
 
-    const dailyForecast = getDailyForecast(fiveDaysWeather);
+    const dailyForecast: DailyForecast[] = useDailyForecast(fiveDaysWeather);
 
     useEffect(() => {
-        if (fiveDaysError.message === currentWeatherError.message) {
+        if (fiveDaysError.message && currentWeatherError.message && fiveDaysError.message === currentWeatherError.message) {
             toast.error(fiveDaysError.message);
-        } else {
+        } else if (fiveDaysError.message && currentWeatherError.message) {
             toast.error(fiveDaysError.message);
             toast.error(currentWeatherError.message);
         }
-    }, [fiveDaysError]);
+    }, [fiveDaysError, currentWeatherError]);
 
+    useEffect(() => {
+        if (fiveDaysWeather.length > 0 && currentWeather.humidity && currentWeather.wind) {
+            const filteredTodaysWeather = fiveDaysWeather.filter((weather: FiveDaysWeather) => weather.date === fiveDaysWeather[0].date);
+            setWeatherDetails([
+                {
+                    name: 'High',
+                    value: Math.max(...filteredTodaysWeather.map((weather: FiveDaysWeather) => weather.degrees)),
+                    unit: '°'
+                },
+                {
+                    name: 'Low',
+                    value: Math.min(...filteredTodaysWeather.map((weather: FiveDaysWeather) => weather.degrees)),
+                    unit: '°'
+                },
+                {
+                    name: 'Humidity',
+                    value: currentWeather.humidity,
+                    unit: '%'
+                },
+                {
+                    name: 'Wind',
+                    value: currentWeather.wind,
+                    unit: 'km/h'
+                },
+                {
+                    name: 'Precipitation',
+                    value: filteredTodaysWeather[0].precipitation,
+                    unit: '%'
+                }
+            ]);
+            setTodaysWeather(filteredTodaysWeather);
+        }
+    }, [fiveDaysWeather, currentWeather]);
 
-    if (fiveDaysWeather.length > 0 && currentWeather.humidity && currentWeather.wind) {
-        const filteredTodaysWeather = fiveDaysWeather.filter((weather: FiveDaysWeather) => weather.date === fiveDaysWeather[0].date);
-        weatherDetails = [
-            {
-                name: 'High',
-                value: Math.max(...filteredTodaysWeather.map((weather: FiveDaysWeather) => weather.degrees)),
-                unit: '°'
-            },
-            {
-                name: 'Low',
-                value: Math.min(...filteredTodaysWeather.map((weather: FiveDaysWeather) => weather.degrees)),
-                unit: '°'
-            },
-            {
-                name: 'Humidity',
-                value: currentWeather.humidity,
-                unit: '%'
-            },
-            {
-                name: 'Wind',
-                value: currentWeather.wind,
-                unit: 'km/h'
-            },
-            {
-                name: 'Precipitation',
-                value: filteredTodaysWeather[0].precipitation,
-                unit: '%'
-            }
-        ];
-        todaysWeather = filteredTodaysWeather;
-    }
 
     return (
         <aside className={styles["aside"]}>

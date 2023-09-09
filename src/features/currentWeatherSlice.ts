@@ -46,11 +46,11 @@ export const fetchCurrentWeatherData = createAsyncThunk('currentWeather/fetchDat
     try {
         const response = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${cityName}&appid=${import.meta.env.VITE_OPEN_WEATHER_API_KEY}&units=metric`);
 
-        if (!response.ok) {
-            throw new Error('Failed to fetch weather data');
-        }
-
         const currentWeatherData = await response.json();
+
+        if (!response.ok) {
+            throw new Error(currentWeatherData.message);
+        }
 
         const formattedData = {
             cityName: currentWeatherData.name,
