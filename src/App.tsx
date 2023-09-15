@@ -22,45 +22,45 @@ function App() {
             switch (currentWeather.weather) {
                 case 'Clear':
                     if (timeAsNumber > 1800 || timeAsNumber < 500) {
-                        setBackGroundImage('./clear-night.jpg');
+                        setBackGroundImage('./clear-night.webp');
                     } else {
-                        setBackGroundImage('./clear.jpg');
+                        setBackGroundImage('./clear.webp');
                     }
                     break;
                 case 'Clouds':
                     if (timeAsNumber > 1800 || timeAsNumber < 500) {
-                        setBackGroundImage('./night-cloudy.jpg');
+                        setBackGroundImage('./night-cloudy.webp');
                     } else {
-                        setBackGroundImage('./day-cloudy.jpg');
+                        setBackGroundImage('./day-cloudy.webp');
                     }
                     break;
                 case 'Snow':
-                    setBackGroundImage('./snow.jpg');
+                    setBackGroundImage('./snow.webp');
                     break;
                 case 'Rain':
                     if (timeAsNumber > 1800 || timeAsNumber < 500) {
-                        setBackGroundImage('./rain-night.jpg');
+                        setBackGroundImage('./rain-night.webp');
                     } else {
-                        setBackGroundImage('./rain-day.jpg');
+                        setBackGroundImage('./rain-day.webp');
                     }
                     break;
                 case 'Drizzle':
-                    setBackGroundImage('./drizzle.jpg');
+                    setBackGroundImage('./drizzle.webp');
                     break;
                 case 'Mist':
-                    setBackGroundImage('./mist.jpg');
+                    setBackGroundImage('./mist.webp');
                     break;
                 case 'Fog':
-                    setBackGroundImage('./mist.jpg');
+                    setBackGroundImage('./mist.webp');
                     break;
                 case 'Haze':
-                    setBackGroundImage('./mist.jpg');
+                    setBackGroundImage('./mist.webp');
                     break;
                 case 'Thunderstorm':
-                    setBackGroundImage('./thunderstorm.jpg');
+                    setBackGroundImage('./thunderstorm.webp');
                     break;
                 default:
-                    setBackGroundImage('./day-cloudy.jpg');
+                    setBackGroundImage('./day-cloudy.webp');
                     break;
             }
         }
