@@ -6,7 +6,7 @@ This App is a single-page application built with React that allows users to chec
 
 ### The link to the website is https://donttouchmydomain.com
 
-![Cars](https://user-images.githubusercontent.com/106311309/230741582-e7f9954e-e37f-45d2-adcf-debcf9d6e8a4.jpg)
+![donttouchmydomain com_](https://github.com/martinpanov/Weather-App/assets/106311309/a1c270be-b387-4fdd-92da-381b70cea261)
 
 ## Technology Stack
 
