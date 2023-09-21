@@ -1,10 +1,11 @@
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "../../../store";
-import { useState, useRef, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { fetchFiveDaysWeatherData } from "../../../features/fiveDaysWeatherSlice";
 import { fetchCurrentWeatherData } from "../../../features/currentWeatherSlice";
 import citiesData from "../../../../city.list.json";
 import styles from './Form.module.css';
+import useClickOutside from "../../../hooks/useClickOutside";
 
 interface Cities {
     id: number;
@@ -18,9 +19,11 @@ interface Cities {
 }
 
 export default function Form() {
-    const cities: Cities[] = citiesData as Cities[];
+    const cities = citiesData as Cities[];
 
-    const dropDownMenuRef = useRef<HTMLDivElement | null>(null);
+    const dropDownMenuRef = useClickOutside(() => {
+        setIsDropDownOpen(false);
+    });
 
     const [cityName, setCityName] = useState('Plovdiv');
     const [isDropDownOpen, setIsDropDownOpen] = useState(false);
@@ -31,26 +34,6 @@ export default function Form() {
         dispatch(fetchFiveDaysWeatherData(cityName));
         dispatch(fetchCurrentWeatherData(cityName));
     }, []);
-
-    useEffect(() => {
-        const handleOutsideClick = (e: any) => {
-            if (dropDownMenuRef.current && !dropDownMenuRef.current.contains(e.target)) {
-                setIsDropDownOpen(false);
-            }
-        };
-
-        if (isDropDownOpen) {
-            document.addEventListener("mousedown", handleOutsideClick);
-        } else {
-            document.removeEventListener("mousedown", handleOutsideClick);
-        }
-
-        return () => {
-            document.removeEventListener("mousedown", handleOutsideClick);
-        };
-
-    }, [isDropDownOpen, dropDownMenuRef]);
-
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
