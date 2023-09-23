@@ -51,7 +51,7 @@ export default function Form() {
         const searchTerm = cityName.toLowerCase();
         let cityNameAfterFilter = '';
 
-        const filteredCities = cities.filter((city: any) => {
+        const filteredCities = cities.filter((city: Cities) => {
             const name = city.name.toLowerCase();
 
             if (searchTerm && name.includes(searchTerm)) {
@@ -73,7 +73,7 @@ export default function Form() {
 
         return filteredCities
             .slice(0, 10)
-            .map((city: any) => <span onClick={() => handleCitySuggestionClick(city.name)} key={city.id}>{city.name}</span>);
+            .map((city: Cities) => <span onClick={() => handleCitySuggestionClick(city.name)} key={city.id}>{city.name}</span>);
     };
 
     const handleCitySuggestionClick = (city: string) => {
