@@ -6,18 +6,23 @@ import WeatherInfo from './components/AsideWeatherInfo/AsideWeatherInfo';
 import { RootState } from './store';
 import { Toaster } from 'react-hot-toast';
 
-
 function App() {
     const { currentWeather } = useSelector((state: RootState) => state.currentWeather);
     const [backgroundImage, setBackGroundImage] = useState('');
 
     useEffect(() => {
         if (currentWeather.weather && currentWeather.time) {
-            const timeInGBFormat = new Date(`${currentWeather.date} ${currentWeather.time}`);
-            const hours = timeInGBFormat.getHours();
-            const minutes = timeInGBFormat.getMinutes();
+            const timeComponents = currentWeather.time.split(' ');
+            const time = timeComponents[0];
+            const ampm = timeComponents[1];
 
-            const timeAsNumber = hours * 100 + minutes;
+            let [hours, minutes] = time.split(':').map(Number);
+
+            if (ampm === "PM" && hours !== 12) {
+                hours += 12;
+            }
+
+            const timeAsNumber = (hours * 100) + minutes;
 
             switch (currentWeather.weather) {
                 case 'Clear':
