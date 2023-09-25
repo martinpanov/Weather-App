@@ -67,7 +67,7 @@ export default function WeatherInfo() {
                 {
                     name: 'Wind',
                     value: currentWeather.wind,
-                    unit: 'km/h'
+                    unit: 'm/s'
                 },
                 {
                     name: 'Precipitation',
