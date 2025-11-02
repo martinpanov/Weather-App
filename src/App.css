@@ -80,12 +80,3 @@ select {
     --primary-white: #ffffff;
     --secondary-white: #e6e6e6;
 }
-
-.main__background-image {
-    position: absolute;
-    z-index: -1;
-    height: 100%;
-    width: 100%;
-    object-fit: cover;
-    filter: brightness(70%);
-}

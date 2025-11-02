@@ -1,27 +1,23 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import formatTime from '../utils/formatDate';
 
-interface CurrentWeather {
-    cityName: string;
-    degrees: number;
-    humidity: number;
-    wind: number;
-    time: string;
-    date: string;
-    weather: string;
-    icon: string;
-}
-
-interface ErrorType {
-    message: string;
-    sliceName: string;
-}
-
-interface CurrentWeatherState {
-    currentWeather: CurrentWeather;
+type CurrentWeatherState = {
+    currentWeather: {
+        cityName: string;
+        degrees: number;
+        humidity: number;
+        wind: number;
+        time: string;
+        date: string;
+        weather: string;
+        icon: string;
+    };
     loading: boolean;
-    error: ErrorType;
-}
+    error: {
+        message: string;
+        sliceName: string;
+    };
+};
 
 const initialCurrentWeatherState: CurrentWeatherState = {
     currentWeather: {
@@ -67,9 +63,9 @@ export const fetchCurrentWeatherData = createAsyncThunk('currentWeather/fetchDat
     } catch (error) {
         if (error instanceof Error) {
             return rejectWithValue({ message: error.message, sliceName: 'currentWeather' });
-        } else {
-            return rejectWithValue('An unknown error occurred');
         }
+
+        return rejectWithValue('An unknown error occurred');
     }
 });
 
@@ -92,7 +88,7 @@ const currentWeatherSlice = createSlice({
             })
             .addCase(fetchCurrentWeatherData.rejected, (state, action) => {
                 state.loading = false;
-                state.error = action.payload as ErrorType;
+                state.error = action.payload as CurrentWeatherState["error"];
             });
     }
 });

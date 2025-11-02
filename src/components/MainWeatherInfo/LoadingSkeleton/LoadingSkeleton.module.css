@@ -1,0 +1,65 @@
+.main__skeleton-wrapper {
+  display: flex;
+  gap: 1rem;
+}
+
+.main__skeleton {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  gap: 0.5rem;
+}
+
+@media (max-width: 568px) {
+  .main__skeleton-degrees {
+    height: 5rem;
+    width: 8.5rem;
+  }
+
+  .main__skeleton-city {
+    height: 3rem;
+    width: 10rem;
+  }
+
+  .main__skeleton-time {
+    height: 1.5rem;
+    width: 10rem;
+  }
+
+  .main__skeleton-image {
+    height: 3rem;
+    width: 3.25rem;
+  }
+
+  .main__skeleton-weather {
+    height: 1.5rem;
+    width: 3.5rem;
+  }
+}
+
+@media (max-width: 460px) {
+  .main__skeleton-degrees {
+    height: 5rem;
+    width: 7.5rem;
+  }
+
+  .main__skeleton-city {
+    height: 3rem;
+    width: 9rem;
+  }
+
+  .main__skeleton-time {
+    height: 1.5rem;
+    width: 9rem;
+  }
+
+  .main__skeleton-image {
+    height: 3rem;
+    width: 3rem;
+  }
+
+  .main__skeleton-weather {
+    height: 1.5rem;
+    width: 3.25rem;
+  }
+}

@@ -8,65 +8,13 @@
 }
 
 .main__logo {
-    color: var(--secondary-white);
-}
-
-.main__skeleton-wrapper {
-    display: flex;
-    opacity: 0.4;
-    gap: 1rem;
-}
-
-.main__skeleton {
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-end;
-    gap: 0.5rem;
-}
-
-.main__skeleton-degrees {
-    height: 6.5rem;
-    width: 10rem;
-}
-
-.main__skeleton-city {
-    height: 3.5rem;
-    width: 11.5rem;
-}
-
-.main__skeleton-time {
-    height: 1.75rem;
-    width: 11.5rem;
-}
-
-.main__skeleton-image {
-    height: 3.5rem;
-    width: 3.75rem;
-}
-
-.main__skeleton-weather {
-    height: 1.75rem;
-    width: 3.75rem;
-}
-
-.main--loading {
-    border-radius: 0.75rem;
-    animation: skeleton-loading 1s linear infinite alternate;
-}
-
-@keyframes skeleton-loading {
-    0% {
-        background-color: hsl(200, 20%, 70%);
-    }
-
-    100% {
-        background-color: hsl(200, 20%, 95%);
-    }
+    color: var(--primary-white);
 }
 
 .main__weather-details {
     display: flex;
     align-items: flex-end;
+    gap: 1.5rem
 }
 
 .main__degrees {
@@ -74,10 +22,6 @@
     color: var(--primary-white);
     line-height: 0.8;
     letter-spacing: -0.75rem;
-}
-
-.main__city-info {
-    margin-left: 1rem;
 }
 
 .main__city {
@@ -89,10 +33,6 @@
 .main__time {
     color: var(--secondary-white);
     font-size: 1.175rem;
-}
-
-.main__weather-info {
-    margin-left: 1.5rem;
 }
 
 .main__weather {
@@ -122,67 +62,17 @@
 }
 
 @media (max-width: 568px) {
-    .main__skeleton-degrees {
-        height: 5rem;
-        width: 8.5rem;
-    }
-
-    .main__skeleton-city {
-        height: 3rem;
-        width: 10rem;
-    }
-
-    .main__skeleton-time {
-        height: 1.5rem;
-        width: 10rem;
-    }
-    
-    .main__skeleton-image {
-        height: 3rem;
-        width: 3.25rem;
-    }
-    
-    .main__skeleton-weather {
-        height: 1.5rem;
-        width: 3.5rem;
-    }
-
     .main__degrees {
         font-size: 5rem;
         letter-spacing: 0rem;
     }
-    
+
     .main__city {
         font-size: 2rem;
     }
 }
 
 @media (max-width: 460px) {
-    .main__skeleton-degrees {
-        height: 5rem;
-        width: 7.5rem;
-    }
-
-    .main__skeleton-city {
-        height: 3rem;
-        width: 9rem;
-    }
-
-    .main__skeleton-time {
-        height: 1.5rem;
-        width: 9rem;
-    }
-    
-    .main__skeleton-image {
-        height: 3rem;
-        width: 3rem;
-    }
-    
-    .main__skeleton-weather {
-        height: 1.5rem;
-        width: 3.25rem;
-    }
-
     .main__degrees {
         font-size: 3rem;
     }

@@ -1,0 +1,65 @@
+.aside__weather-details {
+  padding: 3rem 0rem;
+}
+
+.aside__weather-info-title {
+  color: var(--primary-white);
+  margin-bottom: 2rem;
+}
+
+.aside__weather-time-list {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 3rem;
+  font-size: 1.25rem;
+}
+
+.aside__weather-details:not(:last-child) {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.4);
+}
+
+.aside__weather-time-list-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.aside__weather-time {
+  color: var(--secondary-white);
+}
+
+.aside__weather-degrees {
+  font-size: 1.5rem;
+  color: var(--primary-white);
+}
+
+@media (max-width: 1320px) {
+  .aside__weather-time-list {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 1024px) {
+  .aside__weather-time-list {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 568px) {
+  .aside__weather-info-title {
+    font-size: 1.25rem;
+  }
+
+  .aside__weather-time-list {
+    grid-template-columns: repeat(2, 1fr);
+    font-size: 1rem;
+  }
+
+  .aside__weather-time-list-item img {
+    height: 4rem;
+  }
+
+  .aside__weather-degrees {
+    font-size: 1.25rem;
+  }
+}

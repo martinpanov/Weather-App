@@ -1,26 +1,15 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import formatTime from '../utils/formatDate';
+import { FiveDaysWeather } from '../types';
 
-interface FiveDaysWeather {
-    degrees: number;
-    time: string;
-    date: string;
-    precipitation: number;
-    weather: string;
-    icon: string;
-}
-
-interface ErrorType {
-    message: string;
-    sliceName: string;
-}
-
-interface FiveDaysWeatherState {
+type FiveDaysWeatherState = {
     fiveDaysWeather: FiveDaysWeather[];
     loading: boolean;
-    error: ErrorType;
-}
-
+    error: {
+        message: string;
+        sliceName: string;
+    };
+};
 
 const initialFiveDaysWeatherState: FiveDaysWeatherState = {
     fiveDaysWeather: [],
@@ -41,24 +30,24 @@ export const fetchFiveDaysWeatherData = createAsyncThunk('fiveDaysWeather/fetchD
             throw new Error(fiveDaysWeatherData.message);
         }
 
-        const formattedData = fiveDaysWeatherData.list.map((day: any) => {
-            return {
+        const formattedData = fiveDaysWeatherData.list.map((day: any) => (
+            {
                 degrees: Number(day.main.temp.toFixed(0)),
                 time: formatTime(fiveDaysWeatherData.city.timezone, day.dt * 1000, 'time'),
                 date: formatTime(fiveDaysWeatherData.city.timezone, day.dt * 1000, 'date'),
                 precipitation: day.pop,
                 weather: day.weather[0].main,
                 icon: `https://openweathermap.org/img/wn/${day.weather[0].icon}@2x.png`,
-            };
-        });
+            }
+        ));
 
         return formattedData;
     } catch (error) {
         if (error instanceof Error) {
             return rejectWithValue({ message: error.message, sliceName: 'fiveDaysWeather' });
-        } else {
-            return rejectWithValue('An unknown error occurred');
         }
+
+        return rejectWithValue('An unknown error occurred');
     }
 });
 
@@ -81,7 +70,7 @@ const fiveDaysWeatherSlice = createSlice({
             })
             .addCase(fetchFiveDaysWeatherData.rejected, (state, action) => {
                 state.loading = false;
-                state.error = action.payload as ErrorType;
+                state.error = action.payload as FiveDaysWeatherState["error"];
             });
     }
 });
