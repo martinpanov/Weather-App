@@ -1,95 +1,95 @@
 .main {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    width: 60%;
-    height: 100vh;
-    padding: 5rem 0rem 10rem 8rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 60%;
+  height: 100vh;
+  padding: 5rem 0rem 10rem 8rem;
 }
 
 .main__logo {
-    color: var(--primary-white);
+  color: var(--primary-white);
 }
 
 .main__weather-details {
-    display: flex;
-    align-items: flex-end;
-    gap: 1.5rem
+  display: flex;
+  align-items: flex-end;
+  gap: 1.5rem;
 }
 
 .main__degrees {
-    font-size: 8rem;
-    color: var(--primary-white);
-    line-height: 0.8;
-    letter-spacing: -0.75rem;
+  font-size: 8rem;
+  color: var(--primary-white);
+  line-height: 0.8;
+  letter-spacing: -0.75rem;
 }
 
 .main__city {
-    color: var(--primary-white);
-    font-size: 3.5rem;
-    line-height: 1;
+  color: var(--primary-white);
+  font-size: 3.5rem;
+  line-height: 1;
 }
 
 .main__time {
-    color: var(--secondary-white);
-    font-size: 1.175rem;
+  color: var(--secondary-white);
+  font-size: 1.175rem;
 }
 
 .main__weather {
-    display: block;
-    color: var(--secondary-white);
-    font-size: 1.175rem;
-    text-align: center;
+  display: block;
+  color: var(--secondary-white);
+  font-size: 1.175rem;
+  text-align: center;
 }
 
 .main__weather-image {
-    width: 100%;
-    height: 3.5rem;
+  width: 100%;
+  height: 3.5rem;
 }
 
 @media (max-width: 1320px) {
-    .main {
-        justify-content: center;
-        align-items: center;
-        height: 30vh;
-        width: 100%;
-        padding: 0;
-    }
+  .main {
+    justify-content: center;
+    align-items: center;
+    height: 30vh;
+    width: 100%;
+    padding: 0;
+  }
 
-    .main__logo {
-        display: none;
-    }
+  .main__logo {
+    display: none;
+  }
 }
 
 @media (max-width: 568px) {
-    .main__degrees {
-        font-size: 5rem;
-        letter-spacing: 0rem;
-    }
+  .main__degrees {
+    font-size: 5rem;
+    letter-spacing: 0rem;
+  }
 
-    .main__city {
-        font-size: 2rem;
-    }
+  .main__city {
+    font-size: 2rem;
+  }
 }
 
 @media (max-width: 460px) {
-    .main__degrees {
-        font-size: 3rem;
-    }
+  .main__degrees {
+    font-size: 3rem;
+  }
 
-    .main__city {
-        font-size: 1rem;
-    }
+  .main__city {
+    font-size: 1rem;
+  }
 
-    .main__time {
-        font-size: 0.75rem;
-    }
+  .main__time {
+    font-size: 0.75rem;
+  }
 
-    .main__weather {
-        font-size: 0.75rem;
-    }
+  .main__weather {
+    font-size: 0.75rem;
+  }
 
-    .main__weather-image {
-        height: 2.5rem;
-    }
+  .main__weather-image {
+    height: 2.5rem;
+  }
 }

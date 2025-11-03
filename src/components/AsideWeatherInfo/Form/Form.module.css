@@ -1,50 +1,50 @@
 .aside__input {
-    width: 70%;
-    padding-bottom: 0.25rem;
-    background: transparent;
-    border: none;
-    outline: none;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.4);
-    font-size: 1.25rem;
-    color: #e6e6e6;
+  width: 70%;
+  padding-bottom: 0.25rem;
+  background: transparent;
+  border: none;
+  outline: none;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.4);
+  font-size: 1.25rem;
+  color: #e6e6e6;
 }
 
-.aside__input::placeholder  {
-    color: rgba(255, 255, 255, 0.5);
+.aside__input::placeholder {
+  color: rgba(255, 255, 255, 0.5);
 }
 
 .aside__search-button {
-    all: unset;
-    position: absolute;
-    top: 0;
-    right: 0;
-    background-color: #d66c05;
-    padding: 1.5rem 2rem;
-    font-size: 1.5rem;
-    cursor: pointer;
+  all: unset;
+  position: absolute;
+  top: 0;
+  right: 0;
+  background-color: #d66c05;
+  padding: 1.5rem 2rem;
+  font-size: 1.5rem;
+  cursor: pointer;
 }
 
 .aside__dropdown {
-    position: absolute;
-    z-index: 10;
-    display: flex;
-    flex-direction: column;
-    gap: 0.25rem;
-    width: 73.6%;
-    padding: 1rem 0rem 1rem 1.5rem;
-    background-color: hsl(0, 0%, 18.82%);
-    border-radius: 1rem;
-    font-size: 1.25rem;
-    color: var(--secondary-white);
+  position: absolute;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  width: 73.6%;
+  padding: 1rem 0rem 1rem 1.5rem;
+  background-color: hsl(0, 0%, 18.82%);
+  border-radius: 1rem;
+  font-size: 1.25rem;
+  color: var(--secondary-white);
 }
 
 @media (max-width: 568px) {
-    .aside__input {
-        font-size: 1rem;
-    }
+  .aside__input {
+    font-size: 1rem;
+  }
 
-    .aside__search-button {
-        padding: 1.5rem 1.75rem;
-        font-size: 1.25rem;
-    }
+  .aside__search-button {
+    padding: 1.5rem 1.75rem;
+    font-size: 1.25rem;
+  }
 }

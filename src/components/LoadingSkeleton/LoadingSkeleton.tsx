@@ -1,5 +1,4 @@
-import { FC } from "react";
-import styles from "./LoadingSkeleton.module.css";
+import styles from './LoadingSkeleton.module.css';
 
 type Props = {
   width: string;
@@ -7,11 +6,6 @@ type Props = {
   className?: string;
 };
 
-export const LoadingSkeleton: FC<Props> = ({ width, height, className }) => {
-  return (
-    <div
-      className={`${styles["loading-skeleton"]} ${className}`}
-      style={{ width, height }}
-    />
-  );
+export const LoadingSkeleton = ({ width, height, className }: Props) => {
+  return <div className={`${styles['loading-skeleton']} ${className}`} style={{ width, height }} />;
 };

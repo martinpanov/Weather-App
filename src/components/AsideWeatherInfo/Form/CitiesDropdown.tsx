@@ -1,15 +1,16 @@
+import { useEffect, useState } from 'react';
+
+import citiesData from '../../../../city.list.json';
+import useClickOutside from '../hooks/useClickOutside';
 import styles from './Form.module.css';
-import useClickOutside from '../../../hooks/useClickOutside';
-import { useState, useEffect } from 'react';
 import { City } from './types';
 
 type CitiesDropdownProps = {
   cityName: string;
-  filteredCities: City[];
   handleSuggestionClick: (city: string) => void;
 };
 
-export const CitiesDropdown = ({ cityName, filteredCities, handleSuggestionClick }: CitiesDropdownProps) => {
+export const CitiesDropdown = ({ cityName, handleSuggestionClick }: CitiesDropdownProps) => {
   const [isDropDownOpen, setIsDropDownOpen] = useState(true);
   const dropDownMenuRef = useClickOutside(() => setIsDropDownOpen(false));
 
@@ -28,16 +29,23 @@ export const CitiesDropdown = ({ cityName, filteredCities, handleSuggestionClick
     return null;
   }
 
+  const citiesList = citiesData as City[];
+  const filteredCities = citiesList.filter(
+    (cityFromList: City) => cityName && cityFromList.name.toLowerCase().includes(cityName)
+  );
+
   if (filteredCities.length === 0) {
     return <p>No cities found</p>;
   }
 
-  const finalCities = filteredCities
-    .slice(0, 10)
-    .map((city: City) => <span onClick={() => handleClick(city.name)} key={city.id}>{city.name}</span>);
+  const finalCities = filteredCities.slice(0, 10).map((city: City) => (
+    <span onClick={() => handleClick(city.name)} key={city.id}>
+      {city.name}
+    </span>
+  ));
 
   return (
-    <div className={styles["aside__dropdown"]} ref={dropDownMenuRef} >
+    <div className={styles['aside__dropdown']} ref={dropDownMenuRef}>
       {finalCities}
     </div>
   );

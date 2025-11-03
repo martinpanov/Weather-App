@@ -12,3 +12,14 @@ export type DailyForecast = {
   degrees: number;
   icon: string;
 };
+
+export type CurrentWeather = {
+  cityName: string;
+  degrees: number;
+  humidity: number;
+  wind: number;
+  time: string;
+  date: string;
+  weather: string;
+  icon: string;
+};

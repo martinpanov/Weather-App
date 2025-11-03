@@ -1,8 +1,7 @@
-import { FC } from "react";
-import styles from "./Forecast.module.css";
-import { DailyForecast, FiveDaysWeather } from "../../../types";
-import { LoadingSkeleton } from "../../LoadingSkeleton/LoadingSkeleton";
-import { RenderIf } from "../../RenderIf/RenderIf";
+import { DailyForecast, FiveDaysWeather } from '../../../types';
+import { LoadingSkeleton } from '../../LoadingSkeleton/LoadingSkeleton';
+import { RenderIf } from '../../RenderIf/RenderIf';
+import styles from './Forecast.module.css';
 
 type Props = {
   title: string;
@@ -10,20 +9,22 @@ type Props = {
   loading: boolean;
 };
 
-export const Forecast: FC<Props> = ({ title, forecast, loading }) => {
+export const Forecast = ({ title, forecast, loading }: Props) => {
   return (
-    <div className={styles["aside__weather-details"]}>
-      <h2 className={styles["aside__weather-info-title"]}>{title}</h2>
+    <div className={styles['aside__weather-details']}>
+      <h2 className={styles['aside__weather-info-title']}>{title}</h2>
       <RenderIf condition={loading}>
         <LoadingSkeleton width="100%" height="160px" />
       </RenderIf>
       <RenderIf condition={!loading}>
-        <ul className={styles["aside__weather-time-list"]} role='list'>
+        <ul className={styles['aside__weather-time-list']} role="list">
           {forecast.map((weather, index) => (
-            <li className={styles["aside__weather-time-list-item"]} key={index}>
-              <span className={styles["aside__weather-time"]}>{(weather as FiveDaysWeather).time || weather.date}</span>
+            <li className={styles['aside__weather-time-list-item']} key={index}>
+              <span className={styles['aside__weather-time']}>
+                {(weather as FiveDaysWeather).time || weather.date}
+              </span>
               <img src={weather.icon} alt="weather" />
-              <span className={styles["aside__weather-degrees"]}>{weather.degrees}&deg;</span>
+              <span className={styles['aside__weather-degrees']}>{weather.degrees}&deg;</span>
             </li>
           ))}
         </ul>

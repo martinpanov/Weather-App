@@ -1,11 +1,11 @@
-import { FC, ReactNode } from "react";
+import { ReactNode } from 'react';
 
 type Props = {
   children: ReactNode;
   condition: any;
 };
 
-export const RenderIf: FC<Props> = ({ children, condition }) => {
+export const RenderIf = ({ children, condition }: Props) => {
   if (!condition) {
     return null;
   }

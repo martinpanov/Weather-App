@@ -1,19 +1,20 @@
-import './App.css';
-import MainWeatherInfo from './components/MainWeatherInfo/MainWeatherInfo';
-import WeatherInfo from './components/AsideWeatherInfo/AsideWeatherInfo';
-import { Toaster } from 'react-hot-toast';
-import { Background } from './components/Background/Background';
 import React from 'react';
+import { Toaster } from 'react-hot-toast';
+
+import './App.css';
+import WeatherInfo from './components/AsideWeatherInfo/AsideWeatherInfo';
+import Background from './components/Background/Background';
+import MainWeatherInfo from './components/MainWeatherInfo/MainWeatherInfo';
 
 function App() {
-    return (
-        <React.Fragment>
-            <Toaster reverseOrder={true} />
-            <Background />
-            <MainWeatherInfo />
-            <WeatherInfo />
-        </React.Fragment>
-    );
+  return (
+    <React.Fragment>
+      <Toaster reverseOrder={true} />
+      <Background />
+      <MainWeatherInfo />
+      <WeatherInfo />
+    </React.Fragment>
+  );
 }
 
 export default App;
