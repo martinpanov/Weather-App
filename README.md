@@ -4,9 +4,9 @@
 
 This App is a single-page application built with React that allows users to check the weather in different cities.
 
-### The link to the website is https://donttouchmydomain.com
+### The link to the website is https://weather.yoannabest.com
 
-![donttouchmydomain com_](https://github.com/martinpanov/Weather-App/assets/106311309/a1c270be-b387-4fdd-92da-381b70cea261)
+![Weather App Preview](https://github.com/martinpanov/Weather-App/assets/106311309/a1c270be-b387-4fdd-92da-381b70cea261)
 
 ## Technology Stack
 
