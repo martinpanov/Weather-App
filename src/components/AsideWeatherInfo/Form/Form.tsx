@@ -11,10 +11,16 @@ type Props = {
 
 const Form = ({ fetchAllData }: Props) => {
   const [cityName, setCityName] = useState('');
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     fetchAllData(cityName);
+  };
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setCityName(e.target.value);
+    setIsDropdownOpen(true);
   };
 
   return (
@@ -25,10 +31,12 @@ const Form = ({ fetchAllData }: Props) => {
         placeholder="Location"
         type="text"
         value={cityName}
-        onChange={(e) => setCityName(e.target.value.toLowerCase())}
+        onChange={handleInputChange}
       />
       <CitiesDropdown
         cityName={cityName}
+        isOpen={isDropdownOpen}
+        onClose={() => setIsDropdownOpen(false)}
         handleSuggestionClick={(city: string) => setCityName(city)}
       />
       <button className={styles['aside__search-button']}>

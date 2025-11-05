@@ -38,6 +38,10 @@
   color: var(--secondary-white);
 }
 
+.aside__city-name {
+  cursor: pointer;
+}
+
 @media (max-width: 568px) {
   .aside__input {
     font-size: 1rem;
