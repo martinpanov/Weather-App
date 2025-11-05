@@ -17,8 +17,8 @@ const initialFiveDaysWeatherState: FiveDaysWeatherState = {
   loading: true,
   error: {
     message: '',
-    sliceName: ''
-  }
+    sliceName: '',
+  },
 };
 
 export const fetchFiveDaysWeatherData = createAsyncThunk(
@@ -37,17 +37,28 @@ export const fetchFiveDaysWeatherData = createAsyncThunk(
 
       const formattedData = fiveDaysWeatherData.list.map((day: any) => ({
         degrees: Number(day.main.temp.toFixed(0)),
-        time: formatTime(fiveDaysWeatherData.city.timezone, day.dt * 1000, 'time'),
-        date: formatTime(fiveDaysWeatherData.city.timezone, day.dt * 1000, 'date'),
+        time: formatTime(
+          fiveDaysWeatherData.city.timezone,
+          day.dt * 1000,
+          'time'
+        ),
+        date: formatTime(
+          fiveDaysWeatherData.city.timezone,
+          day.dt * 1000,
+          'date'
+        ),
         precipitation: day.pop,
         weather: day.weather[0].main,
-        icon: `https://openweathermap.org/img/wn/${day.weather[0].icon}@2x.png`
+        icon: `https://openweathermap.org/img/wn/${day.weather[0].icon}@2x.png`,
       }));
 
       return formattedData;
     } catch (error) {
       if (error instanceof Error) {
-        return rejectWithValue({ message: error.message, sliceName: 'fiveDaysWeather' });
+        return rejectWithValue({
+          message: error.message,
+          sliceName: 'fiveDaysWeather',
+        });
       }
 
       return rejectWithValue('An unknown error occurred');
@@ -59,13 +70,13 @@ const fiveDaysWeatherSlice = createSlice({
   name: 'fiveDaysWeather',
   initialState: initialFiveDaysWeatherState,
   reducers: {},
-  extraReducers: builder => {
+  extraReducers: (builder) => {
     builder
-      .addCase(fetchFiveDaysWeatherData.pending, state => {
+      .addCase(fetchFiveDaysWeatherData.pending, (state) => {
         state.loading = true;
         state.error = {
           message: '',
-          sliceName: ''
+          sliceName: '',
         };
       })
       .addCase(fetchFiveDaysWeatherData.fulfilled, (state, action) => {
@@ -76,7 +87,7 @@ const fiveDaysWeatherSlice = createSlice({
         state.loading = false;
         state.error = action.payload as FiveDaysWeatherState['error'];
       });
-  }
+  },
 });
 
 export default fiveDaysWeatherSlice.reducer;

@@ -1,14 +1,18 @@
 import { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 
+import styles from './Background.module.css';
 import { getCurrentWeather } from '../../selectors';
 import { RootState } from '../../store';
 import { CurrentWeather } from '../../types';
-import styles from './Background.module.css';
 
-const isNightTime = (timeAsNumber: number) => timeAsNumber > 1800 || timeAsNumber < 500;
+const isNightTime = (timeAsNumber: number) =>
+  timeAsNumber > 1800 || timeAsNumber < 500;
 
-const WEATHER_CONDITION_BASED_IMAGE: Record<string, string | ((timeAsNumber: number) => string)> = {
+const WEATHER_CONDITION_BASED_IMAGE: Record<
+  string,
+  string | ((timeAsNumber: number) => string)
+> = {
   Clear: (timeAsNumber: number) =>
     isNightTime(timeAsNumber) ? './clear-night.webp' : './clear.webp',
   Clouds: (timeAsNumber: number) =>
@@ -20,7 +24,7 @@ const WEATHER_CONDITION_BASED_IMAGE: Record<string, string | ((timeAsNumber: num
   Mist: './mist.webp',
   Fog: './mist.webp',
   Haze: './mist.webp',
-  Thunderstorm: './thunderstorm.webp'
+  Thunderstorm: './thunderstorm.webp',
 };
 
 type StateProps = {
@@ -47,19 +51,26 @@ const Background = ({ currentWeather }: StateProps) => {
 
     const timeAsNumber = hours * 100 + minutes;
     const weatherImage =
-      WEATHER_CONDITION_BASED_IMAGE[currentWeather.weather] || './day-cloudy.webp';
+      WEATHER_CONDITION_BASED_IMAGE[currentWeather.weather] ||
+      './day-cloudy.webp';
     setBackGroundImage(
-      typeof weatherImage === 'function' ? weatherImage(timeAsNumber) : weatherImage
+      typeof weatherImage === 'function'
+        ? weatherImage(timeAsNumber)
+        : weatherImage
     );
   }, [currentWeather]);
 
   return (
-    <img className={styles['main__background-image']} src={backgroundImage} alt="day-cloudy" />
+    <img
+      className={styles['main__background-image']}
+      src={backgroundImage}
+      alt="day-cloudy"
+    />
   );
 };
 
 const mapStateToProps = (state: RootState): StateProps => ({
-  currentWeather: getCurrentWeather(state)
+  currentWeather: getCurrentWeather(state),
 });
 
 export default connect(mapStateToProps)(Background);

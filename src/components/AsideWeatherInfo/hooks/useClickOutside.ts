@@ -5,7 +5,10 @@ export default function useClickOutside(handler: () => void) {
 
   useEffect(() => {
     const handleOutsideClick = (e: any) => {
-      if (dropDownMenuRef.current && !dropDownMenuRef.current.contains(e.target)) {
+      if (
+        dropDownMenuRef.current &&
+        !dropDownMenuRef.current.contains(e.target)
+      ) {
         handler();
       }
     };

@@ -4,9 +4,10 @@ import { FiveDaysWeather } from '../types';
 // so I have to filter the weather data and receive only the unique dates, this way, I'm able to create the daily forecast.
 
 export default function getDailyForecast(fiveDaysWeather: FiveDaysWeather[]) {
-  const newDailyForecast: Record<string, { degrees: number[]; icon: string }> = {};
+  const newDailyForecast: Record<string, { degrees: number[]; icon: string }> =
+    {};
 
-  fiveDaysWeather.forEach(weather => {
+  fiveDaysWeather.forEach((weather) => {
     if (!(weather.date in newDailyForecast)) {
       newDailyForecast[weather.date] = { icon: weather.icon, degrees: [] };
     }
@@ -14,16 +15,20 @@ export default function getDailyForecast(fiveDaysWeather: FiveDaysWeather[]) {
     newDailyForecast[weather.date].degrees.push(weather.degrees);
   });
 
-  const dailyForecast = Object.entries(newDailyForecast).map(([date, degreesArrayAndIcon]) => ({
-    date,
-    degrees: Number(
-      (
-        degreesArrayAndIcon.degrees.reduce((acc, degrees) => acc + degrees, 0) /
-        degreesArrayAndIcon.degrees.length
-      ).toFixed(0)
-    ),
-    icon: degreesArrayAndIcon.icon
-  }));
+  const dailyForecast = Object.entries(newDailyForecast).map(
+    ([date, degreesArrayAndIcon]) => ({
+      date,
+      degrees: Number(
+        (
+          degreesArrayAndIcon.degrees.reduce(
+            (acc, degrees) => acc + degrees,
+            0
+          ) / degreesArrayAndIcon.degrees.length
+        ).toFixed(0)
+      ),
+      icon: degreesArrayAndIcon.icon,
+    })
+  );
 
   return dailyForecast;
 }

@@ -5,5 +5,6 @@ import { AppDispatch } from '../../store';
 const allActions = [fetchFiveDaysWeatherData, fetchCurrentWeatherData];
 
 export const mapDispatchToProps = (dispatch: AppDispatch) => ({
-  fetchAllData: (cityName: string) => allActions.map(action => dispatch(action(cityName)))
+  fetchAllData: (cityName: string) =>
+    allActions.map((action) => dispatch(action(cityName))),
 });

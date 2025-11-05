@@ -25,7 +25,7 @@ const Form = ({ fetchAllData }: Props) => {
         placeholder="Location"
         type="text"
         value={cityName}
-        onChange={e => setCityName(e.target.value.toLowerCase())}
+        onChange={(e) => setCityName(e.target.value.toLowerCase())}
       />
       <CitiesDropdown
         cityName={cityName}

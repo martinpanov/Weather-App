@@ -1,7 +1,7 @@
+import styles from './Forecast.module.css';
 import { DailyForecast, FiveDaysWeather } from '../../../types';
 import { LoadingSkeleton } from '../../LoadingSkeleton/LoadingSkeleton';
 import { RenderIf } from '../../RenderIf/RenderIf';
-import styles from './Forecast.module.css';
 
 type Props = {
   title: string;
@@ -24,7 +24,9 @@ export const Forecast = ({ title, forecast, loading }: Props) => {
                 {(weather as FiveDaysWeather).time || weather.date}
               </span>
               <img src={weather.icon} alt="weather" />
-              <span className={styles['aside__weather-degrees']}>{weather.degrees}&deg;</span>
+              <span className={styles['aside__weather-degrees']}>
+                {weather.degrees}&deg;
+              </span>
             </li>
           ))}
         </ul>

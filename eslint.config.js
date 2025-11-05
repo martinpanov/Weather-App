@@ -53,15 +53,36 @@ export default [
       'import/order': [
         'error',
         {
-          groups: ['builtin', 'external', 'internal', ['parent', 'sibling', 'index']],
+          groups: [
+            'builtin',
+            'external',
+            'internal',
+            ['parent', 'sibling'],
+            'index',
+            'object',
+            'type',
+          ],
           'newlines-between': 'always',
           alphabetize: {
             order: 'asc',
-            caseInsensitive: true
-          }
-        }
-      ]
-    }
+            caseInsensitive: true,
+          },
+        },
+      ],
+      // Unused imports
+      'unused-imports/no-unused-imports': 'error',
+      'unused-imports/no-unused-vars': [
+        'warn',
+        {
+          vars: 'all',
+          varsIgnorePattern: '^_',
+          args: 'after-used',
+          argsIgnorePattern: '^_',
+        },
+      ],
+      '@typescript-eslint/no-unused-vars': 'off', // Handled by unused-imports
+      '@typescript-eslint/no-explicit-any': 'off', // Allow explicit any types
+    },
   },
-  prettier
+  prettier,
 ];

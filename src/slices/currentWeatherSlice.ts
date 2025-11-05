@@ -29,13 +29,13 @@ const initialCurrentWeatherState: CurrentWeatherState = {
     weather: '',
     time: '',
     date: '',
-    icon: ''
+    icon: '',
   },
   loading: true,
   error: {
     message: '',
-    sliceName: ''
-  }
+    sliceName: '',
+  },
 };
 
 export const fetchCurrentWeatherData = createAsyncThunk(
@@ -56,17 +56,22 @@ export const fetchCurrentWeatherData = createAsyncThunk(
         cityName: currentWeatherData.name,
         degrees: Number(currentWeatherData.main.temp.toFixed(0)),
         time: formatTime(currentWeatherData.timezone, 0, 'time'),
-        date: new Date(currentWeatherData.dt * 1000).toLocaleDateString('en-GB'),
+        date: new Date(currentWeatherData.dt * 1000).toLocaleDateString(
+          'en-GB'
+        ),
         humidity: currentWeatherData.main.humidity,
         wind: currentWeatherData.wind.speed,
         weather: currentWeatherData.weather[0].main,
-        icon: `https://openweathermap.org/img/wn/${currentWeatherData.weather[0].icon}@2x.png`
+        icon: `https://openweathermap.org/img/wn/${currentWeatherData.weather[0].icon}@2x.png`,
       };
 
       return formattedData;
     } catch (error) {
       if (error instanceof Error) {
-        return rejectWithValue({ message: error.message, sliceName: 'currentWeather' });
+        return rejectWithValue({
+          message: error.message,
+          sliceName: 'currentWeather',
+        });
       }
 
       return rejectWithValue('An unknown error occurred');
@@ -78,13 +83,13 @@ const currentWeatherSlice = createSlice({
   name: 'currentWeather',
   initialState: initialCurrentWeatherState,
   reducers: {},
-  extraReducers: builder => {
+  extraReducers: (builder) => {
     builder
-      .addCase(fetchCurrentWeatherData.pending, state => {
+      .addCase(fetchCurrentWeatherData.pending, (state) => {
         state.loading = true;
         state.error = {
           message: '',
-          sliceName: ''
+          sliceName: '',
         };
       })
       .addCase(fetchCurrentWeatherData.fulfilled, (state, action) => {
@@ -95,7 +100,7 @@ const currentWeatherSlice = createSlice({
         state.loading = false;
         state.error = action.payload as CurrentWeatherState['error'];
       });
-  }
+  },
 });
 
 export default currentWeatherSlice.reducer;

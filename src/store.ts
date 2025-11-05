@@ -6,8 +6,8 @@ import fiveDaysWeatherReducer from './slices/fiveDaysWeatherSlice';
 export const store = configureStore({
   reducer: {
     currentWeather: currentWeatherReducer,
-    fiveDaysWeather: fiveDaysWeatherReducer
-  }
+    fiveDaysWeather: fiveDaysWeatherReducer,
+  },
 });
 
 export type AppDispatch = typeof store.dispatch;

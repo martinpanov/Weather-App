@@ -21,7 +21,9 @@ const MainWeatherInfo = ({ currentWeather, loading }: StateProps) => {
       </RenderIf>
       <RenderIf condition={!loading}>
         <div className={styles['main__weather-details']}>
-          <h2 className={styles['main__degrees']}>{currentWeather.degrees}&deg;</h2>
+          <h2 className={styles['main__degrees']}>
+            {currentWeather.degrees}&deg;
+          </h2>
           <div className={styles['main__city-info']}>
             <h1 className={styles['main__city']}>{currentWeather.cityName}</h1>
             <p className={styles['main__time']}>
@@ -34,7 +36,9 @@ const MainWeatherInfo = ({ currentWeather, loading }: StateProps) => {
               src={currentWeather.icon}
               alt="weather"
             />
-            <span className={styles['main__weather']}>{currentWeather.weather}</span>
+            <span className={styles['main__weather']}>
+              {currentWeather.weather}
+            </span>
           </div>
         </div>
       </RenderIf>
@@ -44,7 +48,7 @@ const MainWeatherInfo = ({ currentWeather, loading }: StateProps) => {
 
 const mapStateToProps = (state: RootState): StateProps => ({
   currentWeather: getCurrentWeather(state),
-  loading: getCurrentWeatherLoading(state)
+  loading: getCurrentWeatherLoading(state),
 });
 
 export default connect(mapStateToProps)(MainWeatherInfo);

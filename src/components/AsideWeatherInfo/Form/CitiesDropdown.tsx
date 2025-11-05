@@ -1,16 +1,19 @@
 import { useEffect, useState } from 'react';
 
-import citiesData from '../../../../city.list.json';
-import useClickOutside from '../hooks/useClickOutside';
 import styles from './Form.module.css';
 import { City } from './types';
+import citiesData from '../../../../city.list.json';
+import useClickOutside from '../hooks/useClickOutside';
 
 type CitiesDropdownProps = {
   cityName: string;
   handleSuggestionClick: (city: string) => void;
 };
 
-export const CitiesDropdown = ({ cityName, handleSuggestionClick }: CitiesDropdownProps) => {
+export const CitiesDropdown = ({
+  cityName,
+  handleSuggestionClick,
+}: CitiesDropdownProps) => {
   const [isDropDownOpen, setIsDropDownOpen] = useState(true);
   const dropDownMenuRef = useClickOutside(() => setIsDropDownOpen(false));
 
@@ -31,7 +34,8 @@ export const CitiesDropdown = ({ cityName, handleSuggestionClick }: CitiesDropdo
 
   const citiesList = citiesData as City[];
   const filteredCities = citiesList.filter(
-    (cityFromList: City) => cityName && cityFromList.name.toLowerCase().includes(cityName)
+    (cityFromList: City) =>
+      cityName && cityFromList.name.toLowerCase().includes(cityName)
   );
 
   if (filteredCities.length === 0) {
